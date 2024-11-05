@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import info from './data.json';
+import Timeline from './components/Timeline';
+import Projects from './components/Projects';
+import Header from './components/Header';
+import About from './components/About';
+import Footer from './components/Footer';
 
 function App() {
+  const [data, setData] = useState(info);
+
+  useEffect(() => {
+    if (!data) {
+      setData(info);
+    }
+  }, []);
+  console.log(data);
+
+  if (!data) return <p>Loading...</p>;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div>
+    <Header />
+    <About />
+    <Timeline experiences={data.experiences}/>
+    <Projects projects={data.projects}/>
+    <Footer />
+  </div>
   );
 }
 

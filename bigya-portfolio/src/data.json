@@ -1,0 +1,52 @@
+{
+    "name": "Bigya Bajracharya",
+    "contact": {
+      "phone": "+1 (423) 672-9222",
+      "email": "bigya.in.tech@gmail.com",
+      "linkedin": "https://linkedin.com/in/bigyabajracharya/",
+      "github": "https://github.com/bigyaa"
+    },
+    "summary": "Full Stack Software Engineer with 5+ years of experience delivering robust, scalable front-end and back-end solutions...",
+    "experiences": [
+        {
+          "title": "Full-Stack Engineer",
+          "company": "Independent Contractor",
+          "date": "January 2019 - Present",
+          "description": "Led development of web applications, built MVPs, and optimized performance for client satisfaction."
+        },
+        {
+          "title": "Graduate Teaching Associate",
+          "company": "East Tennessee State University",
+          "date": "August 2022",
+          "description": "Educated 150+ undergraduates in data analysis, AI, and ML applications with hands-on training."
+        },
+        {
+          "title": "Software Engineer",
+          "company": "Fusemachines Inc.",
+          "date": "August 2020 - August 2022",
+          "description": "Developed modular architectures, integrated AI workflows, and improved data-fetching speeds by 32%."
+        },
+        {
+          "title": "Software Engineer",
+          "company": "CityTech Pvt. Ltd.",
+          "date": "June 2019 - August 2020",
+          "description": "Engineered high-traffic remittance platform components, ensuring efficient transaction processing."
+        }
+      ],
+    "skills": [
+      "Python", "JavaScript (ES6+)", "TypeScript", "Java", "React.js", "Redux.js", "Node.js", "AWS", "Docker"
+    ],
+    "projects": [
+      {
+        "title": "Automated Transcription System",
+        "description": "Developed an LLM-powered transcription system that achieved 95% accuracy...",
+        "skills": ["Python", "TensorFlow", "NLP", "AWS"],
+        "link": "https://github.com/username/automated-transcription"
+      },
+      {
+        "title": "College Admission & Academic Management System",
+        "description": "Built a mono-repo system for 15+ colleges, streamlining admissions...",
+        "skills": ["React.js", "Redux", "Node.js"]
+      }
+    ]
+  }
