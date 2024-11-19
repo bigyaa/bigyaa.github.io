@@ -7,16 +7,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#4A90E2',    // Blue
-        secondary: '#50E3C2',  // Green
-        accent: '#F5A623',     // Orange
+        primary: '#000000',           // Black
+        secondary: '#4F4F4F',         // Dark Gray
+        accent: '#B3B3B3',            // Light Gray
         background: {
-          gradient: 'bg-gradient-to-r from-purple-500 via-pink-500 to-red-500',
+          gradient: 'bg-gradient-to-r from-black via-gray-800 to-white', // Black to White Gradient
         },
-        textPrimary: '#FFFFFF', // White
-        textSecondary: '#FFDD57', // Yellow
-        buttonBackground: '#007BFF', // Blue
-        buttonHover: '#0056b3', // Darker Blue
+        textPrimary: '#FFFFFF',       // White
+        textSecondary: '#CCCCCC',     // Light Gray
+        buttonBackground: '#000000',  // Black
+        buttonHover: '#4F4F4F',       // Dark Gray
       },
     },
   },
