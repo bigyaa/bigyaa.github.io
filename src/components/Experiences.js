@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import experiences from '../data/experiences';
 
 // Container and item variants for staggering animations
@@ -27,13 +27,35 @@ const itemVariants = {
   },
 };
 
+// Variants for the collapsible bullet points
+const bulletVariants = {
+  hidden: {
+    opacity: 0,
+    height: 0,
+    transition: {
+      duration: 0.3,
+      ease: 'easeInOut',
+    },
+  },
+  visible: {
+    opacity: 1,
+    height: 'auto',
+    transition: {
+      duration: 0.3,
+      ease: 'easeInOut',
+    },
+  },
+};
+
 // Card for each experience
 function ExperienceCard({ experience }) {
+  // Track whether bullets are displayed
+  const [showBullets, setShowBullets] = useState(false);
+
   return (
     <motion.div
-      // Apply item variant to each card
       variants={itemVariants}
-      // A playful hover effect
+      // A playful hover effect for the entire card
       whileHover={{ scale: 1.06, rotate: 1 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.3 }}
@@ -58,13 +80,35 @@ function ExperienceCard({ experience }) {
       <p className="relative text-md font-semibold z-10">
         {experience.role} | {experience.date}
       </p>
-      <p className="relative mb-2 text-sm italic z-10">{experience.location}</p>
+      <p className="relative mb-4 text-sm italic z-10">{experience.location}</p>
 
-      <ul className="relative list-disc ml-5 mt-2 z-10 text-sm space-y-2">
-        {experience.bullets.map((bullet, idx) => (
-          <li key={idx}>{bullet}</li>
-        ))}
-      </ul>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowBullets((prev) => !prev);
+        }}
+        className="relative z-10 px-4 py-2 bg-pink-300 text-black rounded-full text-sm font-semibold hover:bg-pink-600 transition-colors"
+      >
+        {showBullets ? 'Show Less' : 'Learn More'}
+      </button>
+
+      {/* Collapsible bullet points with animation */}
+      <AnimatePresence>
+        {showBullets && (
+          <motion.ul
+            key="bulletList"
+            className="relative list-disc ml-5 mt-4 text-sm space-y-2 z-10"
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={bulletVariants}
+          >
+            {experience.bullets.map((bullet, idx) => (
+              <li key={idx}>{bullet}</li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -96,13 +140,6 @@ export default function Experience() {
         animate={{ x: [0, -20, 0], y: [0, -10, 0] }}
         transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }}
       />
-
-      <motion.h2
-        variants={itemVariants}
-        className="text-4xl font-bold mb-8 text-lightPurple"
-      >
-        Experience
-      </motion.h2>
 
       {/* Experience Grid */}
       <motion.div

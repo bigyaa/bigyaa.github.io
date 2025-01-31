@@ -21,9 +21,9 @@ function App() {
   return (
     <div>
     <Header />
-    <About />
+    {/* <About /> */}
     <Timeline experiences={data.experiences}/>
-    <Experiences projects={data.projects}/>
+    {/* <Experiences projects={data.projects}/> */}
     <Footer />
   </div>
   );
