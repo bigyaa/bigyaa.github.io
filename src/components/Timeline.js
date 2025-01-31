@@ -73,7 +73,7 @@ function TimelineCard({ item, displayType }) {
       {/* Bullet + connector line if in timeline mode */}
       {verticalMode && (
         <div className="absolute -left-10 md:-left-12 top-0 flex flex-col items-center">
-          <div className="bg-pink-300 w-4 h-4 rounded-full z-10 shadow" />
+          {/* <div className="bg-pink-300 w-4 h-4 rounded-full z-10 shadow" /> */}
           <div className="flex-1 bg-pink-200 w-1 mt-0" />
         </div>
       )}
