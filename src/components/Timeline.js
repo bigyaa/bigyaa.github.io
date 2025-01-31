@@ -73,7 +73,6 @@ function TimelineCard({ item, displayType }) {
       {/* Bullet + connector line if in timeline mode */}
       {verticalMode && (
         <div className="absolute -left-10 md:-left-12 top-0 flex flex-col items-center">
-          {/* <div className="bg-pink-300 w-4 h-4 rounded-full z-10 shadow" /> */}
           <div className="flex-1 bg-pink-200 w-1 mt-0" />
         </div>
       )}
@@ -227,21 +226,19 @@ export default function Timeline() {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setDisplayType('timeline')}
-            className={`px-4 py-2 rounded-md font-semibold transition-colors ${
-              displayType === 'timeline'
+            className={`px-4 py-2 rounded-md font-semibold transition-colors ${displayType === 'timeline'
                 ? 'bg-pink-400 text-white'
                 : 'bg-white text-pink-500 border border-pink-300 hover:bg-pink-200'
-            }`}
+              }`}
           >
             Timeline
           </button>
           <button
             onClick={() => setDisplayType('minimal')}
-            className={`px-4 py-2 rounded-md font-semibold transition-colors ${
-              displayType === 'minimal'
+            className={`px-4 py-2 rounded-md font-semibold transition-colors ${displayType === 'minimal'
                 ? 'bg-pink-400 text-white'
                 : 'bg-white text-pink-500 border border-pink-300 hover:bg-pink-200'
-            }`}
+              }`}
           >
             Minimal
           </button>
@@ -254,11 +251,10 @@ export default function Timeline() {
         )}
 
         <motion.div
-          className={`flex flex-col ${
-            displayType === 'timeline'
+          className={`flex flex-col ${displayType === 'timeline'
               ? 'md:flex-row md:flex-wrap'
               : 'md:flex-col'
-          }`}
+            }`}
           variants={containerVariants}
           initial="hidden"
           animate="show"

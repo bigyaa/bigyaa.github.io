@@ -1,6 +1,6 @@
 // src/components/Header.js
 import React, { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import Hero from './Hero.tsx';
 
 function Header() {
   const canvasRef = useRef(null);
@@ -116,36 +116,13 @@ function Header() {
         style={{ background: 'white' }}
       />
 
-      {/* Content */}
-      <div className="text-center relative z-10">
-        <motion.h1
-          className="text-6xl font-bold text-black"
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          Bigya Bajracharya
-        </motion.h1>
-        <motion.p
-          className="text-xl mt-4 text-gray-800"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          Full Stack Software Engineer
-        </motion.p>
-        <motion.button
-          className="mt-8 px-6 py-3 bg-black text-white font-semibold rounded-md hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-        >
-          View My Work
-        </motion.button>
+      {/* Background Animation (Optional) */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-10 animate-gradient-x"></div>
       </div>
+
+      {/* Content */}
+      <Hero />
 
       {/* Color Palette */}
       <div className="absolute bottom-8 left-8 flex space-x-4 z-10">

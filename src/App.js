@@ -5,24 +5,20 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 function App() {
-  const [data, setData] = useState(info);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    if (!data) {
-      setData(info);
-    }
-  }, [data]);
+    setData(info);
+  }, []);
 
   if (!data) return <p>Loading...</p>;
 
   return (
     <div>
-    <Header />
-    {/* <About /> */}
-    <Timeline experiences={data.experiences}/>
-    {/* <Experiences projects={data.projects}/> */}
-    <Footer />
-  </div>
+      <Header />
+      <Timeline experiences={data.experiences} />
+      <Footer />
+    </div>
   );
 }
 
