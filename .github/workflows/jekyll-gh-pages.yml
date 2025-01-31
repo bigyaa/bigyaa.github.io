@@ -1,4 +1,4 @@
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+name: Deploy React App to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -25,20 +25,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          source: ./
-          destination: ./_site
+          node-version: 20 # Use the latest LTS version of Node.js
 
-      - name: Upload artifact
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React app
+        run: npm run build
+
+      - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/ # Path to the React build output
 
   # Deployment job
   deploy:
