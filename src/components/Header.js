@@ -74,8 +74,6 @@ function Header() {
       ctx.lineCap = 'round';
       ctx.lineTo(x, y);
       ctx.stroke();
-      ctx.beginPath(); // Start a new path for the next segment
-      ctx.moveTo(x, y);
     };
 
     const stopDrawing = () => {
@@ -115,11 +113,6 @@ function Header() {
         className="absolute inset-0 z-0"
         style={{ background: 'white' }}
       />
-
-      {/* Background Animation (Optional) */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-10 animate-gradient-x"></div>
-      </div>
 
       {/* Content */}
       <Hero />
