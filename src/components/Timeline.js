@@ -378,10 +378,10 @@ export default function Timeline() {
 
       {/* Match Count */}
       <div className="mb-10 text-gray-600">
-        {filteredData.length > 0 ? (
+        {matchCount > 0 ? (
           <p>
-            {filteredData.length} matching experience
-            {filteredData.length > 1 ? 's' : ''} found
+            {matchCount} matching experience
+            {matchCount > 1 ? 's' : ''} found
           </p>
         ) : (
           <p>No matching experiences found.</p>
