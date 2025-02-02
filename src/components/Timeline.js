@@ -36,13 +36,13 @@ const bulletVariants = {
 };
 
 /*** UTIL: PARSE YEAR ***/
-function parseYear(dateStr) {
+const parseYear = (dateStr) => {
   const parsed = parseInt(dateStr.split('-')[0], 10);
   return isNaN(parsed) ? 0 : parsed;
-}
+};
 
 /*** SKILL TAGS ***/
-function SkillTags({ skills, selectedSkills, toggleSkill }) {
+const SkillTags = ({ skills, selectedSkills, toggleSkill }) => {
   if (!skills || skills.length === 0) return null;
   return (
     <div className="flex flex-wrap gap-2 mt-3">
@@ -68,10 +68,10 @@ function SkillTags({ skills, selectedSkills, toggleSkill }) {
       })}
     </div>
   );
-}
+};
 
 /*** TIMELINE CARD ***/
-function TimelineCard({ item, displayType, selectedSkills, toggleSkill }) {
+const TimelineCard = ({ item, displayType, selectedSkills, toggleSkill }) => {
   const [showBullets, setShowBullets] = useState(false);
   const [verticalMode, setVerticalMode] = useState(false);
 
@@ -86,19 +86,16 @@ function TimelineCard({ item, displayType, selectedSkills, toggleSkill }) {
         verticalMode ? 'md:w-1/2 px-4' : 'w-full px-2'
       }`}
     >
-      {/* Connector line if timeline mode (dotted) */}
       {verticalMode && (
         <div className="absolute -left-10 md:-left-14 top-0 flex flex-col items-center">
           <div className="flex-1 border-l-2 border-dotted border-l-lavender-300 mt-0" />
         </div>
       )}
 
-      {/* Card container */}
       <motion.div
         whileHover={{ scale: 1.02 }}
         className="relative w-full max-w-md p-6 rounded-lg shadow-lg border border-lavender-200 bg-gradient-to-br from-white via-lavender-50 to-lavender-50 overflow-hidden transition-transform duration-300"
       >
-        {/* Floating shapes (smaller) */}
         <motion.div
           className="absolute -top-3 -right-3 w-14 h-14 bg-pink-100/30 rounded-full blur-md"
           animate={{ y: [0, 8, 0], x: [0, -4, 0] }}
@@ -110,7 +107,6 @@ function TimelineCard({ item, displayType, selectedSkills, toggleSkill }) {
           transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut' }}
         />
 
-        {/* Title & Info */}
         <h3 className="relative text-2xl font-extrabold text-lavender-700 z-10 mb-1">
           {item.role}
         </h3>
@@ -121,19 +117,16 @@ function TimelineCard({ item, displayType, selectedSkills, toggleSkill }) {
           {item.location}
         </p>
 
-        {/* Summary */}
         <p className="relative text-sm text-gray-600 z-10 leading-relaxed">
           {item.summary}
         </p>
 
-        {/* Skills row */}
         <SkillTags
           skills={item.skills}
           selectedSkills={selectedSkills}
           toggleSkill={toggleSkill}
         />
 
-        {/* Expand bullet points */}
         {item.bullets?.length > 0 && (
           <>
             <motion.button
@@ -165,23 +158,17 @@ function TimelineCard({ item, displayType, selectedSkills, toggleSkill }) {
       </motion.div>
     </motion.div>
   );
-}
+};
 
 /*** MAIN TIMELINE COMPONENT ***/
-export default function Timeline() {
-  // Layout & Sorting
-  const [displayType, setDisplayType] = useState('timeline'); // 'timeline' or 'minimal'
-  const [sortOrder, setSortOrder] = useState('desc'); // 'asc' or 'desc'
-
-  // Searching, Year Range
+const Timeline = () => {
+  const [displayType, setDisplayType] = useState('timeline');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [searchTerm, setSearchTerm] = useState('');
   const [startYear, setStartYear] = useState(2015);
   const [endYear, setEndYear] = useState(2030);
-
-  // Skill-based filtering
   const [selectedSkills, setSelectedSkills] = useState([]);
 
-  // Gather all unique skills
   const allSkills = useMemo(() => {
     const skillSet = new Set();
     experiences.forEach((exp) => {
@@ -190,23 +177,19 @@ export default function Timeline() {
     return Array.from(skillSet).sort();
   }, []);
 
-  // Toggle skill filter
   const toggleSkill = (skill) => {
     setSelectedSkills((prev) =>
       prev.includes(skill) ? prev.filter((s) => s !== skill) : [...prev, skill]
     );
   };
 
-  // Filter + sort experiences
   const filteredData = useMemo(() => {
     const term = searchTerm.toLowerCase();
 
     let filtered = experiences.filter((e) => {
-      // Date range check
       const yearInt = parseYear(e.date);
       if (yearInt < startYear || yearInt > endYear) return false;
 
-      // Search fields
       const textMatch =
         e.role.toLowerCase().includes(term) ||
         e.company.toLowerCase().includes(term) ||
@@ -217,7 +200,6 @@ export default function Timeline() {
 
       if (!textMatch) return false;
 
-      // Must contain all selected skills
       if (selectedSkills.length > 0) {
         const hasAll = selectedSkills.every((skill) =>
           e.skills?.includes(skill)
@@ -227,7 +209,6 @@ export default function Timeline() {
       return true;
     });
 
-    // Sort by date
     filtered.sort((a, b) => {
       const aYear = parseYear(a.date);
       const bYear = parseYear(b.date);
@@ -237,17 +218,14 @@ export default function Timeline() {
     return filtered;
   }, [searchTerm, startYear, endYear, selectedSkills, sortOrder]);
 
-  // Print or Download
   const handlePrint = () => {
     window.print();
   };
 
-  // Match count
   const matchCount = filteredData.length;
 
   return (
     <section className="relative py-16 text-center text-background min-h-screen bg-gradient-to-bl from-pink-50 via-lavender-50 to-lavender-100 overflow-hidden">
-      {/* Soft pastel overlay is now a pink-lavender gradient */}
       <motion.div
         className="absolute top-[-5rem] left-[-3rem] w-60 h-60 bg-lavender-200 rounded-full opacity-30 blur-3xl"
         animate={{ x: [0, 25, 0], y: [0, 8, 0] }}
@@ -259,12 +237,9 @@ export default function Timeline() {
         transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }}
       />
 
-      {/* Header */}
       <h2 className="text-4xl font-bold mb-6 text-lavender-700">Experience</h2>
 
-      {/* Control Panel */}
       <div className="max-w-4xl mx-auto mb-6 px-4 flex flex-col sm:flex-row items-center gap-4 justify-between">
-        {/* Search */}
         <input
           type="text"
           placeholder="Search role, company, bullet..."
@@ -273,7 +248,6 @@ export default function Timeline() {
           className="flex-1 px-4 py-2 rounded-md border border-lavender-200 focus:outline-none focus:ring-2 focus:ring-lavender-300 bg-white text-sm"
         />
 
-        {/* Year Range */}
         <div className="flex items-center space-x-2">
           <label className="text-sm font-semibold text-gray-700">Year:</label>
           <input
@@ -292,9 +266,7 @@ export default function Timeline() {
         </div>
       </div>
 
-      {/* Secondary Controls */}
       <div className="max-w-4xl mx-auto mb-8 px-4 flex flex-col sm:flex-row items-center gap-4 justify-between">
-        {/* Skills Filter */}
         <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
           {allSkills.map((skill) => {
             const selected = selectedSkills.includes(skill);
@@ -315,9 +287,7 @@ export default function Timeline() {
           })}
         </div>
 
-        {/* Sort, Layout, & Print */}
         <div className="flex flex-col sm:flex-row gap-3 items-center">
-          {/* Sort By Date */}
           <div className="flex items-center space-x-1">
             <label className="text-sm font-semibold text-gray-700">Sort:</label>
             <button
@@ -342,7 +312,6 @@ export default function Timeline() {
             </button>
           </div>
 
-          {/* Toggle Timeline/Minimal */}
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setDisplayType('timeline')}
@@ -366,7 +335,6 @@ export default function Timeline() {
             </button>
           </div>
 
-          {/* Print/Download */}
           <button
             onClick={() => handlePrint()}
             className="px-4 py-2 bg-white text-lavender-600 border border-lavender-300 rounded-md hover:bg-pink-100 font-semibold transition-colors text-sm"
@@ -376,7 +344,6 @@ export default function Timeline() {
         </div>
       </div>
 
-      {/* Match Count */}
       <div className="mb-10 text-gray-600">
         {matchCount > 0 ? (
           <p>
@@ -388,7 +355,6 @@ export default function Timeline() {
         )}
       </div>
 
-      {/* TIMELINE or MINIMAL LAYOUT */}
       <div className="max-w-6xl mx-auto px-2 relative">
         {displayType === 'timeline' && (
           <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-0.5 border-dotted border-lavender-300 border-l-2" />
@@ -428,4 +394,6 @@ export default function Timeline() {
       </div>
     </section>
   );
-}
+};
+
+export default Timeline;
