@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import experiences from '../data/experiences'; // updated data with summary & skills
 
@@ -63,7 +63,11 @@ function SkillTags({ skills }) {
 // Timeline Card
 function TimelineCard({ item, displayType }) {
   const [showBullets, setShowBullets] = useState(false);
-  const verticalMode = displayType === 'timeline'; // 'timeline' vs. 'minimal'
+  const [verticalMode, setVerticalMode] = useState(false);
+
+  useEffect(() => {
+    setVerticalMode(displayType === 'timeline');
+  }, [displayType]);
 
   return (
     <motion.div
@@ -162,7 +166,8 @@ export default function Timeline() {
         e.role.toLowerCase().includes(term) ||
         e.company.toLowerCase().includes(term) ||
         e.location.toLowerCase().includes(term) ||
-        e.summary?.toLowerCase().includes(term)
+        e.summary?.toLowerCase().includes(term) ||
+        e.skills?.some((s) => s.toLowerCase().includes(term))
       ) {
         return true;
       }
@@ -227,8 +232,8 @@ export default function Timeline() {
           <button
             onClick={() => setDisplayType('timeline')}
             className={`px-4 py-2 rounded-md font-semibold transition-colors ${displayType === 'timeline'
-                ? 'bg-pink-400 text-white'
-                : 'bg-white text-pink-500 border border-pink-300 hover:bg-pink-200'
+              ? 'bg-pink-400 text-white'
+              : 'bg-white text-pink-500 border border-pink-300 hover:bg-pink-200'
               }`}
           >
             Timeline
@@ -236,8 +241,8 @@ export default function Timeline() {
           <button
             onClick={() => setDisplayType('minimal')}
             className={`px-4 py-2 rounded-md font-semibold transition-colors ${displayType === 'minimal'
-                ? 'bg-pink-400 text-white'
-                : 'bg-white text-pink-500 border border-pink-300 hover:bg-pink-200'
+              ? 'bg-pink-400 text-white'
+              : 'bg-white text-pink-500 border border-pink-300 hover:bg-pink-200'
               }`}
           >
             Minimal
@@ -252,8 +257,8 @@ export default function Timeline() {
 
         <motion.div
           className={`flex flex-col ${displayType === 'timeline'
-              ? 'md:flex-row md:flex-wrap'
-              : 'md:flex-col'
+            ? 'md:flex-row md:flex-wrap'
+            : 'md:flex-col'
             }`}
           variants={containerVariants}
           initial="hidden"
