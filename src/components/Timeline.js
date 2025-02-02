@@ -1,19 +1,16 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import experiences from '../data/experiences'; // updated data with summary & skills
+import experiences from '../data/experiences';
 
-// Parent container variants for staggered animations
+/*** ANIMATION VARIANTS ***/
 const containerVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-    },
+    transition: { staggerChildren: 0.12 },
   },
 };
 
-// Each card’s fade/slide-in
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
   show: {
@@ -23,7 +20,6 @@ const itemVariants = {
   },
 };
 
-// Collapsible bullets
 const bulletVariants = {
   hidden: {
     opacity: 0,
@@ -37,31 +33,43 @@ const bulletVariants = {
   },
 };
 
-// Helper to parse numeric year from e.g. "2019-06"
+/*** UTIL: PARSE YEAR ***/
 function parseYear(dateStr) {
   const parsed = parseInt(dateStr.split('-')[0], 10);
   return isNaN(parsed) ? 0 : parsed;
 }
 
-// Skills tags as small pastel pills
-function SkillTags({ skills }) {
+/*** SKILL TAGS ***/
+function SkillTags({ skills, selectedSkills, toggleSkill }) {
   if (!skills || skills.length === 0) return null;
   return (
-    <div className="flex flex-wrap gap-2 mt-2">
-      {skills.map((skill, idx) => (
-        <span
-          key={idx}
-          className="bg-pink-100 text-pink-700 text-xs font-medium px-2 py-1 rounded-full border border-pink-200"
-        >
-          {skill}
-        </span>
-      ))}
+    <div className="flex flex-wrap gap-2 mt-3">
+      {skills.map((skill, idx) => {
+        const isSelected = selectedSkills.includes(skill);
+        return (
+          <motion.button
+            key={idx}
+            whileTap={{ scale: 0.95 }}
+            onClick={(e) => {
+              e.stopPropagation(); 
+              toggleSkill(skill);
+            }}
+            className={`px-3 py-1 rounded-full border text-xs font-medium transition-colors ${
+              isSelected
+                ? 'bg-pink-300 text-pink-900 border-pink-300 shadow-sm'
+                : 'bg-pink-100 text-pink-700 border-pink-200 hover:bg-pink-200 hover:border-pink-300'
+            }`}
+          >
+            {skill}
+          </motion.button>
+        );
+      })}
     </div>
   );
 }
 
-// Timeline Card
-function TimelineCard({ item, displayType }) {
+/*** TIMELINE CARD ***/
+function TimelineCard({ item, displayType, selectedSkills, toggleSkill }) {
   const [showBullets, setShowBullets] = useState(false);
   const [verticalMode, setVerticalMode] = useState(false);
 
@@ -74,19 +82,19 @@ function TimelineCard({ item, displayType }) {
       variants={itemVariants}
       className={`relative mb-12 ${verticalMode ? 'md:w-1/2 px-4' : 'w-full px-2'}`}
     >
-      {/* Bullet + connector line if in timeline mode */}
+      {/* Connector line if timeline mode */}
       {verticalMode && (
         <div className="absolute -left-10 md:-left-12 top-0 flex flex-col items-center">
           <div className="flex-1 bg-pink-200 w-1 mt-0" />
         </div>
       )}
 
-      {/* The card container */}
+      {/* Card container */}
       <motion.div
         whileHover={{ scale: 1.02 }}
         className="relative p-6 rounded-xl shadow-md border border-pink-100 bg-gradient-to-br from-white via-pink-50 to-pink-50 overflow-hidden transition-transform duration-300"
       >
-        {/* Subtle floating shapes */}
+        {/* Floating shapes */}
         <motion.div
           className="absolute -top-4 -right-4 w-16 h-16 bg-pink-100/20 rounded-full blur-md"
           animate={{ y: [0, 10, 0], x: [0, -5, 0] }}
@@ -98,7 +106,7 @@ function TimelineCard({ item, displayType }) {
           transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut' }}
         />
 
-        {/* Title & Basic Info */}
+        {/* Title & Info */}
         <h3 className="relative text-xl font-bold text-pink-600 z-10 mb-1">
           {item.role}
         </h3>
@@ -113,17 +121,22 @@ function TimelineCard({ item, displayType }) {
         <p className="relative text-sm text-gray-600 z-10">{item.summary}</p>
 
         {/* Skills row */}
-        <SkillTags skills={item.skills} />
+        <SkillTags
+          skills={item.skills}
+          selectedSkills={selectedSkills}
+          toggleSkill={toggleSkill}
+        />
 
-        {/* Collapsible bullet points */}
+        {/* Expand bullet points */}
         {item.bullets?.length > 0 && (
           <>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
               onClick={() => setShowBullets(!showBullets)}
               className="relative z-10 mt-3 px-4 py-2 bg-pink-200 rounded-full text-sm font-semibold text-pink-800 hover:bg-pink-300 transition-colors"
             >
               {showBullets ? 'Show Less' : 'Learn More'}
-            </button>
+            </motion.button>
             <AnimatePresence>
               {showBullets && (
                 <motion.ul
@@ -147,34 +160,83 @@ function TimelineCard({ item, displayType }) {
   );
 }
 
-// Main Timeline
+/*** MAIN TIMELINE COMPONENT ***/
 export default function Timeline() {
-  const [displayType, setDisplayType] = useState('timeline');
+  // Layout & Sorting
+  const [displayType, setDisplayType] = useState('timeline'); // 'timeline' or 'minimal'
+  const [sortOrder, setSortOrder] = useState('desc'); // 'asc' or 'desc'
+
+  // Searching, Year Range
   const [searchTerm, setSearchTerm] = useState('');
   const [startYear, setStartYear] = useState(2015);
   const [endYear, setEndYear] = useState(2030);
 
-  // Filter experiences
+  // Skill-based filtering
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
+  // 1) Gather all unique skills
+  const allSkills = useMemo(() => {
+    const skillSet = new Set();
+    experiences.forEach((exp) => {
+      exp.skills?.forEach((skill) => skillSet.add(skill));
+    });
+    return Array.from(skillSet).sort();
+  }, []);
+
+  // 2) Toggle skill filter
+  const toggleSkill = (skill) => {
+    setSelectedSkills((prev) =>
+      prev.includes(skill) ? prev.filter((s) => s !== skill) : [...prev, skill]
+    );
+  };
+
+  // 3) Filter + sort experiences
   const filteredData = useMemo(() => {
     const term = searchTerm.toLowerCase();
-    return experiences.filter((e) => {
+
+    let filtered = experiences.filter((e) => {
+      // Date range check
       const yearInt = parseYear(e.date);
       if (yearInt < startYear || yearInt > endYear) return false;
 
-      // search role, company, location, summary
-      if (
+      // Search fields
+      const textMatch =
         e.role.toLowerCase().includes(term) ||
         e.company.toLowerCase().includes(term) ||
         e.location.toLowerCase().includes(term) ||
         e.summary?.toLowerCase().includes(term) ||
-        e.skills?.some((s) => s.toLowerCase().includes(term))
-      ) {
-        return true;
+        e.skills?.some((s) => s.toLowerCase().includes(term)) ||
+        e.bullets?.some((b) => b.toLowerCase().includes(term));
+
+      if (!textMatch) return false;
+
+      // Must contain all selected skills
+      if (selectedSkills.length > 0) {
+        const hasAll = selectedSkills.every((skill) =>
+          e.skills?.includes(skill)
+        );
+        if (!hasAll) return false;
       }
-      // search bullets
-      return e.bullets?.some((b) => b.toLowerCase().includes(term));
+      return true;
     });
-  }, [searchTerm, startYear, endYear]);
+
+    // Sort by date
+    filtered.sort((a, b) => {
+      const aYear = parseYear(a.date);
+      const bYear = parseYear(b.date);
+      return sortOrder === 'asc' ? aYear - bYear : bYear - aYear;
+    });
+
+    return filtered;
+  }, [searchTerm, startYear, endYear, selectedSkills, sortOrder]);
+
+  // 4) Print or Download
+  const handlePrint = () => {
+    window.print();
+  };
+
+  // Match count for user feedback
+  const matchCount = filteredData.length;
 
   return (
     <section className="relative py-16 text-center text-background min-h-screen bg-pink-50 overflow-hidden">
@@ -184,7 +246,7 @@ export default function Timeline() {
         style={{ zIndex: -1 }}
       />
 
-      {/* Floating circles (lightened) */}
+      {/* Floating circles */}
       <motion.div
         className="absolute top-[-5rem] left-[-5rem] w-72 h-72 bg-pink-200 rounded-full opacity-30 blur-3xl"
         animate={{ x: [0, 30, 0], y: [0, 10, 0] }}
@@ -196,14 +258,14 @@ export default function Timeline() {
         transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }}
       />
 
-      <h2 className="text-4xl font-bold mb-10 text-pink-700">Experience</h2>
+      <h2 className="text-4xl font-bold mb-6 text-pink-700">Experience</h2>
 
-      {/* Control panel: search, year range, toggle */}
-      <div className="max-w-4xl mx-auto mb-10 px-4 flex flex-col sm:flex-row items-center gap-4 justify-between">
-        {/* Search */}
+      {/* CONTROL PANEL */}
+      <div className="max-w-4xl mx-auto mb-6 px-4 flex flex-col sm:flex-row items-center gap-4 justify-between">
+        {/* Search Input */}
         <input
           type="text"
-          placeholder="Search by role, bullet, etc..."
+          placeholder="Search role, company, bullet..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="flex-1 px-4 py-2 rounded-md border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white"
@@ -226,40 +288,113 @@ export default function Timeline() {
             onChange={(e) => setEndYear(Number(e.target.value) || 9999)}
           />
         </div>
+      </div>
 
-        {/* Toggle layout */}
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => setDisplayType('timeline')}
-            className={`px-4 py-2 rounded-md font-semibold transition-colors ${displayType === 'timeline'
-              ? 'bg-pink-400 text-white'
-              : 'bg-white text-pink-500 border border-pink-300 hover:bg-pink-200'
+      {/* SECONDARY CONTROLS: Skills, Sort, Print, Match Count */}
+      <div className="max-w-4xl mx-auto mb-8 px-4 flex flex-col sm:flex-row items-center gap-4 justify-between">
+        {/* Skills Filter */}
+        <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
+          {allSkills.map((skill) => {
+            const selected = selectedSkills.includes(skill);
+            return (
+              <motion.button
+                key={skill}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => toggleSkill(skill)}
+                className={`px-3 py-1 rounded-full border text-sm font-medium transition-colors ${
+                  selected
+                    ? 'bg-pink-300 text-pink-900 border-pink-300'
+                    : 'bg-white text-pink-600 border-pink-200 hover:bg-pink-100'
+                }`}
+              >
+                {skill}
+              </motion.button>
+            );
+          })}
+        </div>
+
+        {/* Sort & Layout & Print */}
+        <div className="flex flex-col sm:flex-row gap-3 items-center">
+          {/* Sort By Date */}
+          <div className="flex items-center space-x-1">
+            <label className="text-sm font-semibold text-gray-700">Sort:</label>
+            <button
+              onClick={() => setSortOrder('asc')}
+              className={`px-3 py-1 rounded-l-md border text-sm font-medium ${
+                sortOrder === 'asc'
+                  ? 'bg-pink-400 text-white border-pink-400'
+                  : 'bg-white text-pink-600 border-pink-200 hover:bg-pink-100'
               }`}
-          >
-            Timeline
-          </button>
-          <button
-            onClick={() => setDisplayType('minimal')}
-            className={`px-4 py-2 rounded-md font-semibold transition-colors ${displayType === 'minimal'
-              ? 'bg-pink-400 text-white'
-              : 'bg-white text-pink-500 border border-pink-300 hover:bg-pink-200'
+            >
+              Asc
+            </button>
+            <button
+              onClick={() => setSortOrder('desc')}
+              className={`px-3 py-1 rounded-r-md border text-sm font-medium ${
+                sortOrder === 'desc'
+                  ? 'bg-pink-400 text-white border-pink-400'
+                  : 'bg-white text-pink-600 border-pink-200 hover:bg-pink-100'
               }`}
+            >
+              Desc
+            </button>
+          </div>
+
+          {/* Toggle Timeline/Minimal */}
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setDisplayType('timeline')}
+              className={`px-4 py-2 rounded-md font-semibold transition-colors ${
+                displayType === 'timeline'
+                  ? 'bg-pink-400 text-white'
+                  : 'bg-white text-pink-500 border border-pink-300 hover:bg-pink-200'
+              }`}
+            >
+              Timeline
+            </button>
+            <button
+              onClick={() => setDisplayType('minimal')}
+              className={`px-4 py-2 rounded-md font-semibold transition-colors ${
+                displayType === 'minimal'
+                  ? 'bg-pink-400 text-white'
+                  : 'bg-white text-pink-500 border border-pink-300 hover:bg-pink-200'
+              }`}
+            >
+              Minimal
+            </button>
+          </div>
+
+          {/* Print/Download */}
+          <button
+            onClick={() => window.print()}
+            className="px-4 py-2 bg-white text-pink-500 border border-pink-300 rounded-md hover:bg-pink-100 font-semibold transition-colors"
           >
-            Minimal
+            Print / PDF
           </button>
         </div>
       </div>
 
+      {/* Matches Found */}
+      <div className="mb-8 text-gray-600">
+        {matchCount > 0 ? (
+          <p>{matchCount} matching experience{matchCount > 1 ? 's' : ''} found</p>
+        ) : (
+          <p>No matching experiences found.</p>
+        )}
+      </div>
+
+      {/* TIMELINE or MINIMAL LAYOUT */}
       <div className="max-w-5xl mx-auto px-4 relative">
         {displayType === 'timeline' && (
           <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-0.5 bg-pink-200" />
         )}
 
         <motion.div
-          className={`flex flex-col ${displayType === 'timeline'
-            ? 'md:flex-row md:flex-wrap'
-            : 'md:flex-col'
-            }`}
+          className={`flex flex-col ${
+            displayType === 'timeline'
+              ? 'md:flex-row md:flex-wrap'
+              : 'md:flex-col'
+          }`}
           variants={containerVariants}
           initial="hidden"
           animate="show"
@@ -271,6 +406,8 @@ export default function Timeline() {
                   key={exp.id}
                   item={exp}
                   displayType={displayType}
+                  selectedSkills={selectedSkills}
+                  toggleSkill={toggleSkill}
                 />
               ))
             ) : (
