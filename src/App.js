@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import info from './data.json';
 import Timeline from './components/Timeline';
-import Header from './components/Header';
 import Footer from './components/Footer';
+// import FrontPage from './components/FrontPage';
+import Header from './components/Header';
 
 function App() {
   const [data, setData] = useState(null);
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <div>
+      {/* <FrontPage /> */}
       <Header />
       <Timeline experiences={data.experiences} />
       <Footer />
