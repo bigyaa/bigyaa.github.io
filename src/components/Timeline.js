@@ -1,6 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import experiences from '../data/experiences';
+import TimelineCard from './TimelineCard.tsx';
+import { parseYear } from '../utils/index.js';
 
 /*** ANIMATION VARIANTS ***/
 const containerVariants = {
@@ -20,142 +22,6 @@ const itemVariants = {
     y: 0,
     transition: { duration: 0.5, ease: 'easeOut' },
   },
-};
-
-const bulletVariants = {
-  hidden: {
-    opacity: 0,
-    height: 0,
-    transition: { duration: 0.3, ease: 'easeInOut' },
-  },
-  visible: {
-    opacity: 1,
-    height: 'auto',
-    transition: { duration: 0.3, ease: 'easeInOut' },
-  },
-};
-
-/*** UTIL: PARSE YEAR ***/
-const parseYear = (dateStr) => {
-  const parsed = parseInt(dateStr.split('-')[0], 10);
-  return isNaN(parsed) ? 0 : parsed;
-};
-
-/*** SKILL TAGS ***/
-const SkillTags = ({ skills, selectedSkills, toggleSkill }) => {
-  if (!skills || skills.length === 0) return null;
-  return (
-    <div className="flex flex-wrap gap-2 mt-3">
-      {skills.map((skill, idx) => {
-        const isSelected = selectedSkills.includes(skill);
-        return (
-          <motion.button
-            key={idx}
-            whileTap={{ scale: 0.95 }}
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleSkill(skill);
-            }}
-            className={`px-3 py-1 rounded-full border text-xs font-semibold uppercase tracking-wide transition-all ${isSelected
-                ? 'bg-pink-300 text-lavender-900 border-lavender-300 shadow-sm hover:shadow-md'
-                : 'bg-pink-50 text-lavender-700 border-lavender-200 hover:bg-pink-100 hover:shadow'
-              }`}
-          >
-            {skill}
-          </motion.button>
-        );
-      })}
-    </div>
-  );
-};
-
-/*** TIMELINE CARD ***/
-const TimelineCard = ({ item, displayType, selectedSkills, toggleSkill }) => {
-  const [showBullets, setShowBullets] = useState(false);
-  const [verticalMode, setVerticalMode] = useState(false);
-
-  useEffect(() => {
-    setVerticalMode(displayType === 'timeline');
-  }, [displayType]);
-
-  return (
-    <motion.div
-      variants={itemVariants}
-      className={`relative mb-16 flex justify-center ${verticalMode ? 'md:w-1/2 px-4' : 'w-full px-2'
-        }`}
-    >
-      {verticalMode && (
-        <div className="absolute -left-10 md:-left-14 top-0 flex flex-col items-center">
-          <div className="flex-1 border-l-2 border-dotted border-l-lavender-300 mt-0" />
-        </div>
-      )}
-
-      <motion.div
-        whileHover={{ scale: 1.02 }}
-        className="relative w-full max-w-md p-6 rounded-lg shadow-lg border border-lavender-200 bg-gradient-to-br from-white via-lavender-50 to-lavender-50 overflow-hidden transition-transform duration-300"
-      >
-        <motion.div
-          className="absolute -top-3 -right-3 w-14 h-14 bg-pink-100/30 rounded-full blur-md"
-          animate={{ y: [0, 8, 0], x: [0, -4, 0] }}
-          transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute -bottom-3 -left-3 w-20 h-20 bg-pink-50/30 rounded-full blur-xl"
-          animate={{ y: [0, -6, 0], x: [0, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut' }}
-        />
-
-        <h3 className="relative text-2xl font-extrabold text-lavender-700 z-10 mb-1">
-          {item.role}
-        </h3>
-        <p className="relative text-base font-medium z-10 mb-1 text-gray-700">
-          {item.company} | {item.date}
-        </p>
-        <p className="relative mb-2 text-sm italic z-10 text-gray-500">
-          {item.location}
-        </p>
-
-        <p className="relative text-sm text-gray-600 z-10 leading-relaxed">
-          {item.summary}
-        </p>
-
-        <SkillTags
-          skills={item.skills}
-          selectedSkills={selectedSkills}
-          toggleSkill={toggleSkill}
-        />
-
-        {item.bullets?.length > 0 && (
-          <>
-            <motion.button
-              whileHover={{ scale: 1.07 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setShowBullets(!showBullets)}
-              className="relative z-10 mt-4 px-5 py-2 bg-pink-200 rounded-full text-sm font-semibold text-lavender-800 hover:bg-pink-300 transition-all"
-            >
-              {showBullets ? 'Show Less' : 'Learn More'}
-            </motion.button>
-            <AnimatePresence>
-              {showBullets && (
-                <motion.ul
-                  key="bullets"
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                  variants={bulletVariants}
-                  className="relative list-disc ml-5 mt-3 text-sm space-y-2 z-10 text-gray-600"
-                >
-                  {item.bullets.map((bullet, idx) => (
-                    <li key={idx}>{bullet}</li>
-                  ))}
-                </motion.ul>
-              )}
-            </AnimatePresence>
-          </>
-        )}
-      </motion.div>
-    </motion.div>
-  );
 };
 
 /*** MAIN TIMELINE COMPONENT ***/
@@ -274,8 +140,8 @@ const Timeline = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => toggleSkill(skill)}
                 className={`px-3 py-1 rounded-full border text-sm font-medium uppercase transition-colors ${selected
-                    ? 'bg-pink-200 text-white border-lavender-300'
-                    : 'bg-white text-lavender-700 border-lavender-200 hover:bg-pink-100'
+                  ? 'bg-pink-200 text-white border-lavender-300'
+                  : 'bg-white text-lavender-700 border-lavender-200 hover:bg-pink-100'
                   }`}
               >
                 {skill}
@@ -293,8 +159,8 @@ const Timeline = () => {
             <button
               onClick={() => setSortOrder('asc')}
               className={`px-3 py-1 rounded-l-md border text-sm font-medium ${sortOrder === 'asc'
-                  ? 'bg-pink-200 text-white border-lavender-400'
-                  : 'bg-white text-lavender-600 border-lavender-200 hover:bg-pink-50'
+                ? 'bg-pink-200 text-white border-lavender-400'
+                : 'bg-white text-lavender-600 border-lavender-200 hover:bg-pink-50'
                 }`}
             >
               Asc
@@ -302,8 +168,8 @@ const Timeline = () => {
             <button
               onClick={() => setSortOrder('desc')}
               className={`px-3 py-1 rounded-r-md border text-sm font-medium ${sortOrder === 'desc'
-                  ? 'bg-pink-200 text-white border-lavender-400'
-                  : 'bg-white text-lavender-600 border-lavender-200 hover:bg-pink-50'
+                ? 'bg-pink-200 text-white border-lavender-400'
+                : 'bg-white text-lavender-600 border-lavender-200 hover:bg-pink-50'
                 }`}
             >
               Desc
@@ -314,8 +180,8 @@ const Timeline = () => {
             <button
               onClick={() => setDisplayType('timeline')}
               className={`px-3 py-1 rounded-md font-semibold transition-colors  text-sm ${displayType === 'timeline'
-                  ? 'bg-pink-200 text-white'
-                  : 'bg-white text-lavender-600 border border-lavender-300 hover:bg-pink-100'
+                ? 'bg-pink-200 text-white'
+                : 'bg-white text-lavender-600 border border-lavender-300 hover:bg-pink-100'
                 }`}
             >
               Timeline
@@ -323,8 +189,8 @@ const Timeline = () => {
             <button
               onClick={() => setDisplayType('minimal')}
               className={`px-3 py-1 rounded-md font-semibold transition-colors  text-sm ${displayType === 'minimal'
-                  ? 'bg-pink-200 text-white'
-                  : 'bg-white text-lavender-600 border border-lavender-300 hover:bg-pink-100'
+                ? 'bg-pink-200 text-white'
+                : 'bg-white text-lavender-600 border border-lavender-300 hover:bg-pink-100'
                 }`}
             >
               Minimal
@@ -358,8 +224,8 @@ const Timeline = () => {
 
         <motion.div
           className={`flex flex-col ${displayType === 'timeline'
-              ? 'md:flex-row md:flex-wrap'
-              : 'md:flex-col'
+            ? 'md:flex-row md:flex-wrap'
+            : 'md:flex-col'
             }`}
           variants={containerVariants}
           initial="hidden"
