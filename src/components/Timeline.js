@@ -56,11 +56,10 @@ const SkillTags = ({ skills, selectedSkills, toggleSkill }) => {
               e.stopPropagation();
               toggleSkill(skill);
             }}
-            className={`px-3 py-1 rounded-full border text-xs font-semibold uppercase tracking-wide transition-all ${
-              isSelected
+            className={`px-3 py-1 rounded-full border text-xs font-semibold uppercase tracking-wide transition-all ${isSelected
                 ? 'bg-pink-300 text-lavender-900 border-lavender-300 shadow-sm hover:shadow-md'
                 : 'bg-pink-50 text-lavender-700 border-lavender-200 hover:bg-pink-100 hover:shadow'
-            }`}
+              }`}
           >
             {skill}
           </motion.button>
@@ -82,9 +81,8 @@ const TimelineCard = ({ item, displayType, selectedSkills, toggleSkill }) => {
   return (
     <motion.div
       variants={itemVariants}
-      className={`relative mb-16 flex justify-center ${
-        verticalMode ? 'md:w-1/2 px-4' : 'w-full px-2'
-      }`}
+      className={`relative mb-16 flex justify-center ${verticalMode ? 'md:w-1/2 px-4' : 'w-full px-2'
+        }`}
     >
       {verticalMode && (
         <div className="absolute -left-10 md:-left-14 top-0 flex flex-col items-center">
@@ -239,34 +237,34 @@ const Timeline = () => {
 
       <h2 className="text-4xl font-bold mb-6 text-lavender-700">Experience</h2>
 
-      <div className="max-w-4xl mx-auto mb-6 px-4 flex flex-col sm:flex-row items-center gap-4 justify-between">
+      <div className="max-w-4xl mx-auto mb-6 px-4 flex flex-row sm:flex-row items-center gap-4 justify-between">
         <input
           type="text"
           placeholder="Search role, company, bullet..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="flex-1 px-4 py-2 rounded-md border border-lavender-200 focus:outline-none focus:ring-2 focus:ring-lavender-300 bg-white text-sm"
+          className="flex-col flex-grow px-4 py-2 rounded-md border border-lavender-200 focus:outline-none focus:ring-2 focus:ring-lavender-300 bg-white text-sm"
         />
 
         <div className="flex items-center space-x-2">
           <label className="text-sm font-semibold text-gray-700">Year:</label>
           <input
             type="number"
-            className="w-16 px-2 py-1 rounded-md border border-lavender-200 bg-white text-sm"
+            className="flex-col flex-grow  px-2 py-1 rounded-md border border-lavender-200 bg-white text-sm"
             value={startYear}
             onChange={(e) => setStartYear(Number(e.target.value) || 0)}
           />
           <span className="text-gray-600">–</span>
           <input
             type="number"
-            className="w-16 px-2 py-1 rounded-md border border-lavender-200 bg-white text-sm"
+            className="flex-col flex-grow  px-2 py-1 rounded-md border border-lavender-200 bg-white text-sm"
             value={endYear}
             onChange={(e) => setEndYear(Number(e.target.value) || 9999)}
           />
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto mb-8 px-4 flex flex-col sm:flex-row items-center gap-4 justify-between">
+      <div className="max-w-4xl mx-auto mb-8 px-4 flex sm:flex-row items-center gap-4 justify-between">
         <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
           {allSkills.map((skill) => {
             const selected = selectedSkills.includes(skill);
@@ -275,38 +273,38 @@ const Timeline = () => {
                 key={skill}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => toggleSkill(skill)}
-                className={`px-3 py-1 rounded-full border text-sm font-medium uppercase transition-colors ${
-                  selected
+                className={`px-3 py-1 rounded-full border text-sm font-medium uppercase transition-colors ${selected
                     ? 'bg-pink-200 text-white border-lavender-300'
                     : 'bg-white text-lavender-700 border-lavender-200 hover:bg-pink-100'
-                }`}
+                  }`}
               >
                 {skill}
               </motion.button>
             );
           })}
         </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto mb-8 px-4 flex sm:flex-row items-center gap-4 justify-between">
 
         <div className="flex flex-col sm:flex-row gap-3 items-center">
           <div className="flex items-center space-x-1">
             <label className="text-sm font-semibold text-gray-700">Sort:</label>
             <button
               onClick={() => setSortOrder('asc')}
-              className={`px-3 py-1 rounded-l-md border text-sm font-medium ${
-                sortOrder === 'asc'
+              className={`px-3 py-1 rounded-l-md border text-sm font-medium ${sortOrder === 'asc'
                   ? 'bg-pink-200 text-white border-lavender-400'
                   : 'bg-white text-lavender-600 border-lavender-200 hover:bg-pink-50'
-              }`}
+                }`}
             >
               Asc
             </button>
             <button
               onClick={() => setSortOrder('desc')}
-              className={`px-3 py-1 rounded-r-md border text-sm font-medium ${
-                sortOrder === 'desc'
+              className={`px-3 py-1 rounded-r-md border text-sm font-medium ${sortOrder === 'desc'
                   ? 'bg-pink-200 text-white border-lavender-400'
                   : 'bg-white text-lavender-600 border-lavender-200 hover:bg-pink-50'
-              }`}
+                }`}
             >
               Desc
             </button>
@@ -315,21 +313,19 @@ const Timeline = () => {
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setDisplayType('timeline')}
-              className={`px-4 py-2 rounded-md font-semibold transition-colors ${
-                displayType === 'timeline'
+              className={`px-4 py-2 rounded-md font-semibold transition-colors ${displayType === 'timeline'
                   ? 'bg-pink-200 text-white'
                   : 'bg-white text-lavender-600 border border-lavender-300 hover:bg-pink-100'
-              }`}
+                }`}
             >
               Timeline
             </button>
             <button
               onClick={() => setDisplayType('minimal')}
-              className={`px-4 py-2 rounded-md font-semibold transition-colors ${
-                displayType === 'minimal'
+              className={`px-4 py-2 rounded-md font-semibold transition-colors ${displayType === 'minimal'
                   ? 'bg-pink-200 text-white'
                   : 'bg-white text-lavender-600 border border-lavender-300 hover:bg-pink-100'
-              }`}
+                }`}
             >
               Minimal
             </button>
@@ -361,11 +357,10 @@ const Timeline = () => {
         )}
 
         <motion.div
-          className={`flex flex-col ${
-            displayType === 'timeline'
+          className={`flex flex-col ${displayType === 'timeline'
               ? 'md:flex-row md:flex-wrap'
               : 'md:flex-col'
-          }`}
+            }`}
           variants={containerVariants}
           initial="hidden"
           animate="show"

@@ -20,7 +20,7 @@ function Hero() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
-        Full-Stack Developer | Building Scalable and User-Friendly Solutions
+        Software Engineer | Actively seeking full-time opportunities starting immediately
       </motion.p>
 
       {/* Professional Summary */}
