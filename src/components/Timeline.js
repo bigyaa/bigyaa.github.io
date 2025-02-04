@@ -285,9 +285,9 @@ const Timeline = () => {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto mb-8 px-4 flex sm:flex-row items-center gap-4 justify-between">
+      <div className="max-w-4xl mx-auto mb-8 px-4 flex sm:flex-row gap-4 justify-end">
 
-        <div className="flex flex-col sm:flex-row gap-3 items-center">
+        <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex items-center space-x-1">
             <label className="text-sm font-semibold text-gray-700">Sort:</label>
             <button
@@ -313,7 +313,7 @@ const Timeline = () => {
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setDisplayType('timeline')}
-              className={`px-4 py-2 rounded-md font-semibold transition-colors ${displayType === 'timeline'
+              className={`px-3 py-1 rounded-md font-semibold transition-colors  text-sm ${displayType === 'timeline'
                   ? 'bg-pink-200 text-white'
                   : 'bg-white text-lavender-600 border border-lavender-300 hover:bg-pink-100'
                 }`}
@@ -322,7 +322,7 @@ const Timeline = () => {
             </button>
             <button
               onClick={() => setDisplayType('minimal')}
-              className={`px-4 py-2 rounded-md font-semibold transition-colors ${displayType === 'minimal'
+              className={`px-3 py-1 rounded-md font-semibold transition-colors  text-sm ${displayType === 'minimal'
                   ? 'bg-pink-200 text-white'
                   : 'bg-white text-lavender-600 border border-lavender-300 hover:bg-pink-100'
                 }`}
@@ -333,7 +333,7 @@ const Timeline = () => {
 
           <button
             onClick={() => handlePrint()}
-            className="px-4 py-2 bg-white text-lavender-600 border border-lavender-300 rounded-md hover:bg-pink-100 font-semibold transition-colors text-sm"
+            className="px-3 py-1 bg-white text-lavender-600 border border-lavender-300 rounded-md hover:bg-pink-100 font-semibold transition-colors text-sm"
           >
             Print / Download
           </button>
