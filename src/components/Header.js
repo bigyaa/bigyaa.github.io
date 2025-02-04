@@ -1,135 +1,109 @@
-// src/components/Header.js
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Hero from './Hero.tsx';
 
-function Header() {
+const Header = () => {
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [selectedColor, setSelectedColor] = useState('#FFD700'); // Default color: yellow
-
-  // Color palette options
-  const colors = ['#FFD700', '#FF5733', '#33FF57', '#3357FF', '#FF33A1'];
+  const [currentColor, setCurrentColor] = useState('#000000');
+  const [lastX, setLastX] = useState(0);
+  const [lastY, setLastY] = useState(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
-    // Set canvas dimensions
+    // Set canvas size
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Draw the blue grid (only once)
-    const drawGrid = () => {
-      ctx.strokeStyle = '#ADD8E6'; // Light blue color for the grid
-      ctx.lineWidth = 1;
+    // Set initial drawing styles
+    ctx.strokeStyle = currentColor;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 2;
 
-      // Vertical lines
-      for (let x = 0; x <= canvas.width; x += 50) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-      }
+    // Draw grid
+    drawGrid(ctx);
+  }, []);
 
-      // Horizontal lines
-      for (let y = 0; y <= canvas.height; y += 50) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
-      }
-    };
+  const drawGrid = (ctx) => {
+    ctx.beginPath();
+    ctx.strokeStyle = '#e0e0e0';
+    ctx.lineWidth = 0.5;
 
-    // Draw the grid only once
-    drawGrid();
+    // Vertical lines
+    for (let x = 0; x <= window.innerWidth; x += 20) {
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, window.innerHeight);
+    }
 
-    // Handle drawing on the canvas
-    const getCoordinates = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      if (e.touches) {
-        return {
-          x: e.touches[0].clientX - rect.left,
-          y: e.touches[0].clientY - rect.top,
-        };
-      } else {
-        return {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        };
-      }
-    };
+    // Horizontal lines
+    for (let y = 0; y <= window.innerHeight; y += 20) {
+      ctx.moveTo(0, y);
+      ctx.lineTo(window.innerWidth, y);
+    }
 
-    const startDrawing = (e) => {
-      setIsDrawing(true);
-      const { x, y } = getCoordinates(e);
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-    };
+    ctx.stroke();
+  };
 
-    const draw = (e) => {
-      if (!isDrawing) return;
-      const { x, y } = getCoordinates(e);
-      ctx.strokeStyle = selectedColor;
-      ctx.lineWidth = 5;
-      ctx.lineCap = 'round';
-      ctx.lineTo(x, y);
-      ctx.stroke();
-    };
+  const startDrawing = (e) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-    const stopDrawing = () => {
-      setIsDrawing(false);
-      ctx.beginPath(); // Start a new path for the next stroke
-    };
+    setIsDrawing(true);
+    setLastX(x);
+    setLastY(y);
+  };
 
-    // Event listeners for drawing
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mouseout', stopDrawing);
+  const draw = (e) => {
+    if (!isDrawing) return;
 
-    // Touch event listeners for mobile compatibility
-    canvas.addEventListener('touchstart', startDrawing);
-    canvas.addEventListener('touchmove', draw);
-    canvas.addEventListener('touchend', stopDrawing);
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-    // Cleanup
-    return () => {
-      canvas.removeEventListener('mousedown', startDrawing);
-      canvas.removeEventListener('mousemove', draw);
-      canvas.removeEventListener('mouseup', stopDrawing);
-      canvas.removeEventListener('mouseout', stopDrawing);
+    ctx.beginPath();
+    ctx.strokeStyle = currentColor;
+    ctx.lineWidth = 2;
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
 
-      canvas.removeEventListener('touchstart', startDrawing);
-      canvas.removeEventListener('touchmove', draw);
-      canvas.removeEventListener('touchend', stopDrawing);
-    };
-  }, [isDrawing, selectedColor]); // Re-run effect if isDrawing or selectedColor changes
+    setLastX(x);
+    setLastY(y);
+  };
+
+  const stopDrawing = () => {
+    setIsDrawing(false);
+  };
 
   return (
     <header className="min-h-screen flex items-center justify-center relative">
-      {/* Canvas for grid and drawing */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 z-0"
-        style={{ background: 'white' }}
+        className="absolute top-0 left-0 w-full h-full z-10"
+        onMouseDown={startDrawing}
+        onMouseMove={draw}
+        onMouseUp={stopDrawing}
+        onMouseLeave={stopDrawing}
       />
-
-      {/* Content */}
-      <Hero />
-
-      {/* Color Palette */}
-      <div className="absolute bottom-8 left-8 flex space-x-4 z-10">
-        {colors.map((color, index) => (
+      <div className="absolute bottom-8 left-8 flex space-x-4 z-20">
+        {['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'].map((color) => (
           <button
-            key={index}
+            key={color}
             className="w-8 h-8 rounded-full border-2 border-white shadow-lg"
             style={{ backgroundColor: color }}
-            onClick={() => setSelectedColor(color)}
+            onClick={() => setCurrentColor(color)}
           />
         ))}
       </div>
+      <Hero />
     </header>
   );
-}
+};
 
 export default Header;
