@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
   const [isDrawing, setIsDrawing] = useState(false);
@@ -9,7 +9,7 @@ const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-  }, []);
+  }, [canvasRef]);
 
   const startDrawing = (e) => {
     setIsDrawing(true);
