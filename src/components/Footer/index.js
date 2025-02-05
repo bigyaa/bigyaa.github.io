@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { GitHubIcon, LinkedInIcon, EmailIcon } from './SVGIcons';
+import { GitHubIcon, LinkedInIcon, EmailIcon } from '../SVGIcons';
 
 function Footer() {
   const socialLinks = [

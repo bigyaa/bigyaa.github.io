@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import Hero from '../Hero.tsx';
+import Hero from './Hero';
 import DrawingCanvas from './DrawingCanvas';
 import GridCanvas from './GridCanvas';
 import Controls from './Controls';

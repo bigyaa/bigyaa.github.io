@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { EmailIcon, GitHubIcon, LinkedInIcon } from "./SVGIcons";
+import { EmailIcon, GitHubIcon, LinkedInIcon } from "../SVGIcons";
 import CTAButtons from "./CTAButtons";
 
 // Animation variants for smooth fade-in

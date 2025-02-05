@@ -38,6 +38,9 @@ const TimelineCard = ({ item, displayType, selectedSkills, toggleSkill }) => {
       className={`relative mb-16 flex justify-center ${
         verticalMode ? "md:w-1/2 px-4" : "w-full px-2"
       }`}
+      whileHover={{ scale: 1.06, rotate: 1 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.3 }}
     >
       {verticalMode && (
         <div className="absolute -left-10 md:-left-14 top-0 flex flex-col items-center">
