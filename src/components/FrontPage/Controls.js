@@ -3,10 +3,23 @@ import { motion } from 'framer-motion';
 
 const Controls = ({ canvasRef, currentColor, setCurrentColor, brushSize, setBrushSize, isEraser, setIsEraser }) => {
     const colorPalette = [
-        '#000000', '#FF8A8A', '#BC9F8B', '#A1D6B2', '#A594F9',
-        '#295F98', '#A0E9FF', '#FFD700', '#FF6F61', '#8A2BE2',
-        '#00CED1', '#FF69B4', '#32CD32', '#FFA07A', '#6A5ACD',
-        '#FFC0CB', '#362FD9',
+        { color: '#000000', label: 'Black' },
+        { color: '#FF8A8A', label: 'Light Red' },
+        { color: '#BC9F8B', label: 'Light Brown' },
+        { color: '#A1D6B2', label: 'Light Green' },
+        { color: '#A594F9', label: 'Light Purple' },
+        { color: '#295F98', label: 'Dark Blue' },
+        { color: '#A0E9FF', label: 'Light Blue' },
+        { color: '#FFD700', label: 'Gold' },
+        { color: '#FF6F61', label: 'Coral' },
+        { color: '#8A2BE2', label: 'Blue Violet' },
+        { color: '#00CED1', label: 'Dark Turquoise' },
+        { color: '#FF69B4', label: 'Hot Pink' },
+        { color: '#32CD32', label: 'Lime Green' },
+        { color: '#FFA07A', label: 'Light Salmon' },
+        { color: '#6A5ACD', label: 'Slate Blue' },
+        { color: '#FFC0CB', label: 'Pink' },
+        { color: '#362FD9', label: 'Dark Purple' },
     ];
 
     const clearCanvas = () => {
@@ -22,11 +35,15 @@ const Controls = ({ canvasRef, currentColor, setCurrentColor, brushSize, setBrus
             transition={{ duration: 0.5 }}
         >
             {/* Color Palette */}
-            <div className="flex space-x-1">
-                {colorPalette.map((color) => (
+            <div className="flex space-x-1" role="group" aria-label="Color Palette">
+                {colorPalette.map(({ color, label }) => (
                     <motion.button
                         key={color}
-                        className={`w-7 h-7 rounded-full border-2 ${currentColor === color ? 'border-gray-600' : 'border-white'} shadow-md`}
+                        aria-label={`Select ${label} color`}
+                        role="button"
+                        tabIndex={0}
+                        className={`w-7 h-7 rounded-full border-2 ${currentColor === color ? 'border-gray-600' : 'border-white'
+                            } shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400`}
                         style={{ backgroundColor: color }}
                         onClick={() => {
                             setCurrentColor(color);
@@ -39,11 +56,15 @@ const Controls = ({ canvasRef, currentColor, setCurrentColor, brushSize, setBrus
             </div>
 
             {/* Brush Size Selector */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2" role="group" aria-label="Brush Size Selector">
                 {[2, 6, 10, 14].map((size) => (
                     <motion.button
                         key={size}
-                        className={`w-7 h-7 rounded-full flex items-center justify-center ${brushSize === size ? 'bg-gray-300' : 'bg-white'} border border-gray-400`}
+                        aria-label={`Select brush size ${size}`}
+                        role="button"
+                        tabIndex={0}
+                        className={`w-7 h-7 rounded-full flex items-center justify-center ${brushSize === size ? 'bg-gray-300' : 'bg-white'
+                            } border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400`}
                         onClick={() => setBrushSize(size)}
                         whileHover={{ scale: 1.4 }}
                         whileTap={{ scale: 0.9 }}
@@ -55,7 +76,11 @@ const Controls = ({ canvasRef, currentColor, setCurrentColor, brushSize, setBrus
 
             {/* Eraser Toggle */}
             <motion.button
-                className={`p-2 rounded-md ${isEraser ? 'bg-gray-500 text-white' : 'bg-white-200'} border border-gray-300`}
+                aria-label="Toggle Eraser"
+                role="button"
+                tabIndex={0}
+                className={`p-2 rounded-md ${isEraser ? 'bg-gray-500 text-white' : 'bg-white'
+                    } border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400`}
                 onClick={() => {
                     setIsEraser(!isEraser);
                     setCurrentColor('#ffffff');
@@ -68,7 +93,10 @@ const Controls = ({ canvasRef, currentColor, setCurrentColor, brushSize, setBrus
 
             {/* Clear Canvas */}
             <motion.button
-                className="p-2 rounded-md bg-red-500 text-white border border-red-600"
+                aria-label="Clear Canvas"
+                role="button"
+                tabIndex={0}
+                className="p-2 rounded-md bg-red-500 text-white border border-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
                 onClick={clearCanvas}
                 whileHover={{ scale: 1.5 }}
                 whileTap={{ scale: 0.9 }}

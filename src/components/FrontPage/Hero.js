@@ -14,37 +14,43 @@ const Hero = () => {
     {
       href: "mailto:bigya.in.tech@gmail.com",
       label: "Email",
-      icon: <EmailIcon />,
+      icon: <EmailIcon aria-hidden="true" />, // Marking icon as decorative
     },
     {
       href: "https://www.linkedin.com/in/bigyabajracharya",
       label: "LinkedIn",
-      icon: <LinkedInIcon />,
+      icon: <LinkedInIcon aria-hidden="true" />,
     },
     {
       href: "https://github.com/bigyaa",
       label: "GitHub",
-      icon: <GitHubIcon />,
+      icon: <GitHubIcon aria-hidden="true" />,
     },
   ];
 
   return (
-    <section className="relative py-24 min-h-screen flex items-center justify-center">
-      {/* Floating Shapes */}
+    <section
+      className="relative py-24 min-h-screen flex items-center justify-center"
+      aria-labelledby="hero-heading"
+    >
+      {/* Floating Shapes for Background Effect */}
       <motion.div
-        className="absolute top-[-5rem] left-[-10rem] w-96 h-96 rounded-full opacity-30 blur-3xl"
+        className="absolute top-[-5rem] left-[-10rem] w-96 h-96 rounded-full bg-blue-200 opacity-30 blur-3xl"
         animate={{ x: [0, 30, 0], y: [0, 15, 0] }}
         transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+        aria-hidden="true"
       />
       <motion.div
-        className="absolute bottom-[-5rem] right-[-10rem] w-96 h-96 rounded-full opacity-30 blur-3xl"
+        className="absolute bottom-[-5rem] right-[-10rem] w-96 h-96 rounded-full bg-pink-200 opacity-30 blur-3xl"
         animate={{ x: [0, -20, 0], y: [0, -10, 0] }}
         transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
+        aria-hidden="true"
       />
 
       <div className="text-center relative z-10 max-w-4xl px-6">
         {/* Name & Title */}
         <motion.h1
+          id="hero-heading"
           className="text-5xl font-extrabold text-gray-900 mb-4"
           initial="hidden"
           animate="visible"
@@ -67,7 +73,12 @@ const Hero = () => {
           initial="hidden"
           animate="visible"
           variants={fadeInUp}
+          role="region"
+          aria-labelledby="summary-heading"
         >
+          <h2 id="summary-heading" className="sr-only">
+            Professional Summary
+          </h2>
           <p className="text-lg text-gray-700 mb-6 leading-relaxed">
             I’m a passionate Software Engineer with 5+ years of experience in{" "}
             <strong>React</strong>, <strong>TypeScript</strong>,{" "}
@@ -85,9 +96,10 @@ const Hero = () => {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-12 h-12 bg-gray-100 text-gray-700 rounded-full shadow-md hover:bg-blue-100 hover:text-blue-500 transition-all"
+                className="flex items-center justify-center w-12 h-12 bg-gray-100 text-gray-700 rounded-full shadow-md hover:bg-blue-100 hover:text-blue-500 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
+                aria-label={`Visit my ${label}`}
               >
                 {icon}
               </motion.a>
