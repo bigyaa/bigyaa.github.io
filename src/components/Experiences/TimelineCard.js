@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import SkillTags from "./SkillTags.tsx";
+const SkillTags = React.lazy(() => import("./SkillTags"));
 
 const TimelineCard = ({ item, displayType, selectedSkills, toggleSkill }) => {
   const [showBullets, setShowBullets] = useState(false);
@@ -117,3 +117,4 @@ const TimelineCard = ({ item, displayType, selectedSkills, toggleSkill }) => {
 };
 
 export default TimelineCard;
+

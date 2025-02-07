@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import experiences from "../../data/experiences";
-import TimelineCard from "./TimelineCard.tsx";
-import SearchFilters from "./SearchFilters.js";
 import { parseYearRange } from "../../utils/index.js";
+const TimelineCard = React.lazy(() => import("./TimelineCard"));
+const SearchFilters = React.lazy(() => import("./SearchFilters"));
 
 /*** ANIMATION VARIANTS ***/
 const containerVariants = {
@@ -41,7 +41,7 @@ const Experiences = () => {
             .filter((exp) => {
                 const yearMatches = parseYearRange(exp.date, yearRange[0], yearRange[1]);
                 const searchLower = searchQuery.toLowerCase();
-    
+
                 const textMatch =
                     searchQuery === '' ||
                     exp.role.toLowerCase().includes(searchLower) ||
@@ -50,8 +50,8 @@ const Experiences = () => {
                     exp.summary?.toLowerCase().includes(searchLower) ||
                     exp.skills?.some((s) => s.toLowerCase().includes(searchLower)) ||
                     exp.bullets?.some((b) => b.toLowerCase().includes(searchLower));
-    
-                return textMatch && yearMatches && 
+
+                return textMatch && yearMatches &&
                     (selectedSkills.length === 0 || selectedSkills.every((skill) => exp.skills?.includes(skill)));
             })
             .sort((a, b) => {

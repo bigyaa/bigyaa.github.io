@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import info from './data.json';
-// import Timeline from './components/Timeline';
-import Footer from './components/Footer';
-import FrontPage from './components/FrontPage';
-import Experiences from './components/Experiences';
+const Footer = React.lazy(() => import("./components/Footer"));
+const FrontPage = React.lazy(() => import("./components/FrontPage"));
+const Experiences = React.lazy(() => import("./components/Experiences"));
 
 function App() {
   const [data, setData] = useState(null);

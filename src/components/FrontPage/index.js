@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import Hero from './Hero';
-import DrawingCanvas from './DrawingCanvas';
-import GridCanvas from './GridCanvas';
-import Controls from './Controls';
+const Hero = React.lazy(() => import("./Hero"));
+const DrawingCanvas = React.lazy(() => import("./DrawingCanvas"));
+const GridCanvas = React.lazy(() => import("./GridCanvas"));
+const Controls = React.lazy(() => import("./Controls"));
 
 const FrontPage = () => {
   const canvasRef = useRef(null);
