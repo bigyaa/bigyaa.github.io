@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import info from './data.json';
+import info from './data/experiences';
 const Footer = React.lazy(() => import("./components/Footer"));
 const FrontPage = React.lazy(() => import("./components/FrontPage"));
 const Experiences = React.lazy(() => import("./components/Experiences"));
@@ -16,7 +16,7 @@ function App() {
   return (
     <div>
       <FrontPage />
-      <Experiences />
+      <Experiences/>
       <Footer />
     </div>
   );
