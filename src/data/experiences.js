@@ -3,7 +3,7 @@ const experiences = [
     id: 1,
     company: 'Freelance',
     role: 'Full Stack Engineer',
-    date: 'Jan 2019 - Jul 2022',
+    date: '',
     location: 'Remote',
     summary:
       'Developed full-stack solutions, ensuring maintainable code and on-time releases for 10+ clients.',
@@ -53,7 +53,7 @@ const experiences = [
     id: 4,
     company: 'International Storytelling Center',
     role: 'Full-Stack Developer (Volunteer)',
-    date: 'May 2024 - Jan 2025',
+    date: '',
     location: 'Tennessee, USA',
     summary:
       'Architected an AI-driven archival platform using React, Python, and Whisper, boosting research accessibility by 200%.',
