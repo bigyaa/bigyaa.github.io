@@ -12,7 +12,7 @@ const fadeInUp = {
 const Hero = () => {
   const contactLinks = [
     {
-      href: "mailto:bigya.in.tech@gmail.com",
+      href: "mailto:bigya.js@gmail.com",
       label: "Email",
       icon: <EmailIcon aria-hidden="true" />, // Marking icon as decorative
     },

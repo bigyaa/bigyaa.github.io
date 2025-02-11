@@ -15,7 +15,7 @@ function Footer() {
       label: 'LinkedIn'
     },
     {
-      href: 'mailto:bigya.in.tech@gmail.com',
+      href: 'mailto:bigya.js@gmail.com',
       icon: <EmailIcon />,
       label: 'Email'
     }
@@ -39,7 +39,7 @@ function Footer() {
             Let’s connect and discuss how I can contribute to your team’s success.
           </p>
           <motion.a
-            href="mailto:bigya.in.tech@gmail.com"
+            href="mailto:bigya.js@gmail.com"
             className="inline-block bg-pink-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-700 transition duration-300 shadow-md hover:shadow-lg"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.98 }}
