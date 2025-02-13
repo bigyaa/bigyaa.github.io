@@ -1,10 +1,10 @@
 import dynamic from "next/dynamic";
-import info from "../src/data.json";
+import info from "../data/experiences";
 
 // Lazy-loaded components
-const Footer = dynamic(() => import("../src/components/Footer"));
-const FrontPage = dynamic(() => import("../src/components/FrontPage"));
-const Experiences = dynamic(() => import("../src/components/Experiences"));
+const Footer = dynamic(() => import("../components/Footer"));
+const FrontPage = dynamic(() => import("../components/FrontPage"));
+const Experiences = dynamic(() => import("../components/Experiences"));
 
 export default function Home({ data }) {
   return (
