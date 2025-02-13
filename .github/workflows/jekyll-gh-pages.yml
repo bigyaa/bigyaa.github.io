@@ -30,9 +30,7 @@ jobs:
         run: npm install
 
       - name: Build Next.js app
-        run: |
-          npm run build
-          npm run export  # <-- ✅ Generates static files in `out/`
+        run: npm run build
 
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
