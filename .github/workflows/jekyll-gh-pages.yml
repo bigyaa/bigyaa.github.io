@@ -39,13 +39,10 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      - name: Export Next.js app (if using `next export`)
-        run: npm run export
-
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out/ # Path to the Next.js static export output (default is `out` if using `next export`)
+          path: .next/ # Path to the Next.js static export output (default is `out` if using `next export`)
           # If not using `next export`, use: path: .next/ # Path to the Next.js build output
 
   # Deployment job
