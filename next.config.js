@@ -1,22 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Only use basePath if your repository is NOT named bigyaa.github.io
+  // Correctly set the basePath for GitHub Pages
   basePath: process.env.GITHUB_ACTIONS ? '/bigyaa.github.io' : '',
 
-  output: 'standalone', // Correct if using `next export`, otherwise use 'standalone'
-  trailingSlash: true, // Ensures correct routing on GitHub Pages
+  output: 'export', // ✅ Required for static exports (GitHub Pages)
+  trailingSlash: true, // ✅ Ensures URLs work correctly
 
   images: {
-    unoptimized: true, // Required for GitHub Pages
+    unoptimized: true, // ✅ Required because GitHub Pages doesn’t support Next.js image optimization
   },
 
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      // Webpack caching should not be disabled unless necessary
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 20000,
-        maxSize: 50000,
+        minSize: 30000, // Default is 30 KB (good for performance)
+        maxSize: 250000, // Avoids too many small chunks
       };
     }
     return config;
