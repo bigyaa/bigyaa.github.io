@@ -1,0 +1,7 @@
+/* globals.css */
+/* Import Tailwind Layers */
+@import "tailwindcss";
+@import "tailwindcss/utilities";
+
+/* Import Custom Styles */
+@import "../styles/App.css";  
