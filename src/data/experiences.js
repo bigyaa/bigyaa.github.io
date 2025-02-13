@@ -3,7 +3,7 @@ const experiences = [
     id: 1,
     company: 'Freelance',
     role: 'Full Stack Engineer',
-    date: '',
+    date: '2018',
     location: 'Remote',
     summary:
       'Developed full-stack solutions, ensuring maintainable code and on-time releases for 10+ clients.',
@@ -53,7 +53,7 @@ const experiences = [
     id: 4,
     company: 'International Storytelling Center',
     role: 'Full-Stack Developer (Volunteer)',
-    date: '',
+    date: 'Aug 2022 - May 2024',
     location: 'Tennessee, USA',
     summary:
       'Architected an AI-driven archival platform using React, Python, and Whisper, boosting research accessibility by 200%.',
@@ -68,7 +68,7 @@ const experiences = [
     company: 'Fiserv',
     role: 'Full-Stack Developer',
     date: 'Sept 2023 - Present',
-    location: '',
+    location: 'NY, USA',
     summary:
       'Designed and delivered scalable financial applications using AWS, React.js, Node.js, and TypeScript, ensuring seamless alignment with client needs and business goals.',
     skills: ['React', 'Redux', 'Node.js', 'TypeScript', 'TailwindCSS', 'HTML', 'CSS', 'Python', 'AWS', 'Docker', 'GitHub Actions', 'PostgreSQL', 'MongoDB', 'GraphQL', 'REST', 'Git', 'Jest', 'Enzyme', 'Jenkins', 'Kubernetes', 'Snowflake'],
