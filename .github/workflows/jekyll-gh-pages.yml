@@ -1,4 +1,4 @@
-name: Deploy React App to GitHub Pages
+name: Deploy Next.js App to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -36,13 +36,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build React app
+      - name: Build Next.js app
         run: npm run build
+
+      - name: Export Next.js app (if using `next export`)
+        run: npm run export
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build/ # Path to the React build output
+          path: out/ # Path to the Next.js static export output (default is `out` if using `next export`)
+          # If not using `next export`, use: path: .next/ # Path to the Next.js build output
 
   # Deployment job
   deploy:
