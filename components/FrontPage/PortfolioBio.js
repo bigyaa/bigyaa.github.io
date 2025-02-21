@@ -58,13 +58,6 @@ const PortfolioBio = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Call to Action */}
-            <div className="bg-gray-50 p-2 rounded-lg">
-                <p className="text-gray-800 font-medium">
-                    Looking to join a dynamic team where I can leverage my expertise in full-stack development and AI integration to create innovative solutions.
-                </p>
-            </div>
         </div>
     );
 };
