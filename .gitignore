@@ -1,6 +1,5 @@
 # Next.js build outputs
 .next/
-out/
 
 # Build directory
 build/
