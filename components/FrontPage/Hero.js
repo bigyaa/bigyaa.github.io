@@ -35,18 +35,18 @@ const Hero = ({ resume }) => {
       aria-labelledby="hero-heading"
     >
       {/* Floating Shapes for Background Effect */}
-      <motion.div
-        className="absolute top-[-5rem] left-[-10rem] w-96 h-96 rounded-full bg-blue-200 opacity-30 blur-3xl"
+      {/* <motion.div
+        className="absolute top-[5rem] left-[-30rem] w-96 h-96 rounded-full bg-pink-200 opacity-30 blur-3xl"
         animate={{ x: [0, 30, 0], y: [0, 15, 0] }}
         transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
         aria-hidden="true"
       />
       <motion.div
-        className="absolute bottom-[-5rem] right-[-10rem] w-96 h-96 rounded-full bg-pink-200 opacity-30 blur-3xl"
+        className="absolute bottom-[-5rem] right-[-30rem] w-96 h-96 rounded-full bg-pink-200 opacity-30 blur-3xl"
         animate={{ x: [0, -20, 0], y: [0, -10, 0] }}
         transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
         aria-hidden="true"
-      />
+      /> */}
 
       <div className="text-center relative z-10 max-w-4xl px-6">
         {/* Name & Title */}
