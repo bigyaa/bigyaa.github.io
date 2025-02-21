@@ -7,6 +7,7 @@ const nextConfig = {
   assetPrefix: isProd ? "/bigyaa.github.io/" : "",
   trailingSlash: true,
   images: { unoptimized: true },
+  transpilePackages: ["components/SVGIcons.js"],
   webpack: (config) => {
     config.output.publicPath = isProd ? "/bigyaa.github.io/.next/" : "/.next/";
     return config;
