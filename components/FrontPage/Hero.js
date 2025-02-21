@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { EmailIcon, GitHubIcon, LinkedInIcon } from "../SVGIcons";
 import CTAButtons from "./CTAButtons";
+import PortfolioBio from "./PortfolioBio";
 
 // Animation variants for smooth fade-in
 const fadeInUp = {
@@ -9,7 +10,7 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-const Hero = () => {
+const Hero = ({ resume }) => {
   const contactLinks = [
     {
       href: "mailto:bigya.js@gmail.com",
@@ -64,12 +65,12 @@ const Hero = () => {
           animate="visible"
           variants={fadeInUp}
         >
-          Software Engineer • Actively Seeking Full-Time Opportunities
+          Software Engineer | Full-Stack Developer
         </motion.p>
 
         {/* Professional Summary Card */}
         <motion.div
-          className="bg-white p-10 rounded-lg shadow-2xl text-left mx-auto max-w-3xl"
+          className="bg-white p-10 rounded-lg shadow-2xl text-left mx-auto max-w-5xl"
           initial="hidden"
           animate="visible"
           variants={fadeInUp}
@@ -79,17 +80,12 @@ const Hero = () => {
           <h2 id="summary-heading" className="sr-only">
             Professional Summary
           </h2>
-          <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-            I’m a passionate Software Engineer with 5+ years of experience in{" "}
-            <strong>React</strong>, <strong>TypeScript</strong>,{" "}
-            <strong>Node.js</strong>, <strong>Python</strong>, and{" "}
-            <strong>AI-powered solutions</strong>. I excel at building scalable,
-            efficient, and user-centric web applications. Let’s leverage my
-            expertise to elevate your business with innovative tech solutions.
-          </p>
+          <PortfolioBio />
+          <div className="flex items-center justify-center mt-4"><i>PS: the background is a drawing board 🎨🖌️</i></div>
+          <br />
 
           {/* Social Links */}
-          <div className="flex justify-center gap-6 mb-6">
+          <div className="flex justify-center gap-6">
             {contactLinks.map(({ href, label, icon }) => (
               <motion.a
                 key={label}
@@ -107,7 +103,7 @@ const Hero = () => {
           </div>
 
           {/* Call to Action Buttons */}
-          <CTAButtons />
+          {resume ? <CTAButtons /> : <></>}
         </motion.div>
       </div>
     </section>

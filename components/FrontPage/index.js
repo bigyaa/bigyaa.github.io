@@ -4,7 +4,7 @@ const DrawingCanvas = React.lazy(() => import("./DrawingCanvas"));
 const GridCanvas = React.lazy(() => import("./GridCanvas"));
 const Controls = React.lazy(() => import("./Controls"));
 
-const FrontPage = () => {
+const FrontPage = ({ resume }) => {
   const canvasRef = useRef(null);
   const [currentColor, setCurrentColor] = useState('#000000');
   const [brushSize, setBrushSize] = useState(4);
@@ -35,7 +35,7 @@ const FrontPage = () => {
       />
 
       {/* Hero Section */}
-      <Hero />
+      <Hero resume={resume} />
     </header>
   );
 };

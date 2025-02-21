@@ -3,6 +3,7 @@ name: Deploy Next.js App to GitHub Pages
 on:
   push:
     branches: ["main"]
+
   workflow_dispatch:
 
 permissions:
@@ -30,12 +31,12 @@ jobs:
         run: npm install
 
       - name: Build Next.js app
-        run: npm run build
+        run: npm run build  # 🚀 Do NOT use `next export`, it's built-in now
 
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out/  # ✅ Uploads `out/`, which contains static HTML files
+          path: out/  # ✅ Uploads the static output to GitHub Pages
 
   deploy:
     environment:

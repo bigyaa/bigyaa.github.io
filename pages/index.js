@@ -6,11 +6,11 @@ const Footer = dynamic(() => import("../components/Footer"));
 const FrontPage = dynamic(() => import("../components/FrontPage"));
 const Experiences = dynamic(() => import("../components/Experiences"));
 
-export default function Home({ data }) {
+export default function Home(data) {
   return (
     <>
-      <FrontPage />
-      <Experiences />
+      <FrontPage resume={data.resume} />
+      {data.resume ? <Experiences /> : <></>}
       <Footer />
     </>
   );

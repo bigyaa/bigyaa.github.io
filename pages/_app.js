@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
         <title>Bigya Bajracharya | Portfolio</title>
         <meta name="description" content="Software Engineer Portfolio" />
       </Head>
-      <Component {...pageProps} />
+      <Component {...pageProps} resume = {false} />
     </>
   );
 }
