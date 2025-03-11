@@ -1,18 +1,19 @@
 import React from 'react';
-import { CodeIcon, AIIcon, UsersIcon, ImpactIcon } from '../SVGIcons';
+import { AIIcon, CodeIcon, ImpactIcon, UsersIcon } from '../SVGIcons';
 
 const PortfolioBio = () => {
     return (
         <div className="space-y-4">
             {/* Status Banner */}
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-black-800 font-medium text-center animate-pulse">
-                🔍 Actively Seeking Full-Time Software Engineering Opportunities
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-black font-medium text-center animate-pulse">
+                <span role="img" aria-label="search">🔍</span> Actively Seeking Full-Time Software Engineering Opportunities
             </div>
 
             {/* Main Bio */}
             <div className="space-y-2">
                 <p className="text-lg text-gray-700 leading-relaxed">
-                    Software Engineer with 5+ years of experience in building high-performance web applications. Specializing in creating robust, user-centric solutions that drive business success through innovative technology.
+                    Software Engineer with 5+ years of experience in building high-performance web applications. 
+                    Specializing in creating robust, user-centric solutions that drive business success through innovative technology.
                 </p>
             </div>
 
@@ -23,7 +24,11 @@ const PortfolioBio = () => {
                     <div>
                         <h3 className="font-semibold text-gray-900">Tech Stack</h3>
                         <p className="text-gray-700">
-                            Proficient in <span className="font-medium">React</span>, <span className="font-medium">TypeScript</span>, <span className="font-medium">Node.js</span>, and <span className="font-medium">Python</span> for building modern web applications.
+                            Proficient in <span className="font-medium">React</span>, 
+                            <span className="font-medium">TypeScript</span>, 
+                            <span className="font-medium">Node.js</span>, 
+                            and <span className="font-medium">Python</span> 
+                            for building modern web applications.
                         </p>
                     </div>
                 </div>
