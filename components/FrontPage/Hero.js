@@ -10,6 +10,25 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
+/**
+ * Hero component for the portfolio front page
+ * 
+ * Renders a hero section with personal information, professional summary,
+ * social media links, and call-to-action buttons.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.resume - Resume data object that determines if CTA buttons should be displayed
+ * @returns {JSX.Element} Hero section with animated content and contact links
+ * 
+ * @example
+ * // Basic usage
+ * <Hero resume={resumeData} />
+ * 
+ * @example
+ * // Without resume data
+ * <Hero resume={null} />
+ */
 const Hero = ({ resume }) => {
   const contactLinks = [
     {
@@ -34,19 +53,6 @@ const Hero = ({ resume }) => {
       className="relative py-24 min-h-screen flex items-center justify-center"
       aria-labelledby="hero-heading"
     >
-      {/* Floating Shapes for Background Effect */}
-      {/* <motion.div
-        className="absolute top-[5rem] left-[-30rem] w-96 h-96 rounded-full bg-pink-200 opacity-30 blur-3xl"
-        animate={{ x: [0, 30, 0], y: [0, 15, 0] }}
-        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-        aria-hidden="true"
-      />
-      <motion.div
-        className="absolute bottom-[-5rem] right-[-30rem] w-96 h-96 rounded-full bg-pink-200 opacity-30 blur-3xl"
-        animate={{ x: [0, -20, 0], y: [0, -10, 0] }}
-        transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
-        aria-hidden="true"
-      /> */}
 
       <div className="text-center relative z-10 max-w-4xl px-6">
         {/* Name & Title */}

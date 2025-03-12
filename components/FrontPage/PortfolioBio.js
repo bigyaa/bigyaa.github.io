@@ -12,7 +12,7 @@ const PortfolioBio = () => {
             {/* Main Bio */}
             <div className="space-y-2">
                 <p className="text-lg text-gray-700 leading-relaxed">
-                    Software Engineer with 5+ years of experience in building high-performance web applications. 
+                    Software Engineer with 5+ years of experience in building high-performance web applications.
                     Specializing in creating robust, user-centric solutions that drive business success through innovative technology.
                 </p>
             </div>
@@ -24,10 +24,10 @@ const PortfolioBio = () => {
                     <div>
                         <h3 className="font-semibold text-gray-900">Tech Stack</h3>
                         <p className="text-gray-700">
-                            Proficient in <span className="font-medium">React</span>, 
-                            <span className="font-medium">TypeScript</span>, 
-                            <span className="font-medium">Node.js</span>, 
-                            and <span className="font-medium">Python</span> 
+                            Proficient in <span className="font-medium">React</span>,
+                            <span className="font-medium">TypeScript</span>,
+                            <span className="font-medium">Node.js</span>,
+                            and <span className="font-medium">Python</span>
                             for building modern web applications.
                         </p>
                     </div>
