@@ -86,7 +86,7 @@ const Hero = ({ resume }) => {
           <h2 id="summary-heading" className="sr-only">
             Professional Summary
           </h2>
-          <PortfolioBio />
+          <PortfolioBio isDarkMode={false} />
           <div className="flex items-center justify-center mt-4"><i>PS: the background is a drawing board 🎨🖌️</i></div>
           <br />
 
