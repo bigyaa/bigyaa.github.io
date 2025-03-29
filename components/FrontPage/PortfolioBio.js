@@ -13,13 +13,13 @@ const PortfolioBio = memo(({ isDarkMode = false }) => {
             icon: CodeIcon,
             title: "Tech Stack",
             color: isDarkMode ? 'text-blue-400' : 'text-blue-600',
-            content: <>Expert in <Highlight>React</Highlight> for dynamic UIs, <Highlight>TypeScript</Highlight> for type-safe development, <Highlight>Node.js</Highlight> for backend services, and <Highlight>Python</Highlight> for automation. Experienced with <Highlight>PostgreSQL</Highlight> and <Highlight>AWS</Highlight>.</>
+            content: <>Proficient in <Highlight>JavaScript</Highlight> ecosystems, <Highlight>React</Highlight>, <Highlight>TypeScript</Highlight>, <Highlight>Node.js</Highlight>, and modern web technologies.</>
         },
         {
             icon: AIIcon,
             title: "AI Integration",
             color: isDarkMode ? 'text-purple-400' : 'text-purple-600',
-            content: <>Specialized in LLM-powered features, computer vision, and automation workflows that create competitive advantages.</>
+            content: <>Specialized in LLM-powered features, NLP, and automation workflows that create competitive advantages.</>
         },
         {
             icon: UsersIcon,
@@ -31,7 +31,7 @@ const PortfolioBio = memo(({ isDarkMode = false }) => {
             icon: ImpactIcon,
             title: "Results",
             color: isDarkMode ? 'text-yellow-400' : 'text-yellow-600',
-            content: <>Reduced load times by 65%, increased engagement by 40%, scaled products to millions of users with maintained performance.</>
+            content: <>Reduced load times by 65%, increased engagement by 40%, scaled products to millions of users.</>
         }
     ], [isDarkMode]);
 
@@ -51,8 +51,8 @@ const PortfolioBio = memo(({ isDarkMode = false }) => {
             <div className={`mb-6 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
                 <p className={`text-base leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} 
                     motion-safe:animate-fade-in`}>
-                    Software Engineer with 5+ years building high-performance web applications.
-                    Combining technical expertise with product thinking to deliver user-loved solutions.
+                    Software Engineer with 5+ years of experience building high-performance web applications.
+                    I combine technical expertise with strong product thinking to deliver solutions that users love and businesses depend on.
                 </p>
             </div>
 
