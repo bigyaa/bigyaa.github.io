@@ -13,8 +13,11 @@ const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
 
   const startDrawing = (e) => {
     setIsDrawing(true);
-    setLastX(e.clientX);
-    setLastY(e.clientY);
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setLastX(x);
+    setLastY(y);
   };
 
   const stopDrawing = () => {
@@ -36,12 +39,16 @@ const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
       ctx.strokeStyle = currentColor;
     }
 
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
     ctx.moveTo(lastX, lastY);
-    ctx.lineTo(e.clientX, e.clientY);
+    ctx.lineTo(x, y);
     ctx.stroke();
 
-    setLastX(e.clientX);
-    setLastY(e.clientY);
+    setLastX(x);
+    setLastY(y);
   };
 
   return (
