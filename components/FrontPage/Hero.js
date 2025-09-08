@@ -3,33 +3,29 @@ import { motion } from "framer-motion";
 import { EmailIcon, GitHubIcon, LinkedInIcon } from "../SVGIcons";
 import CTAButtons from "./CTAButtons";
 import PortfolioBio from "./PortfolioBio";
+import { SOCIAL_LINKS, TEXT_CONTENT, ARIA_LABELS, ANIMATION_VARIANTS, ANIMATION_DURATION } from "../../constants";
 
 // Static contact links array
 const contactLinks = [
   {
-    href: "mailto:bigya.js@gmail.com",
-    label: "Email",
+    href: SOCIAL_LINKS.EMAIL.href,
+    label: SOCIAL_LINKS.EMAIL.label,
     icon: <EmailIcon aria-hidden="true" />,
   },
   {
-    href: "https://www.linkedin.com/in/bigyabajracharya",
-    label: "LinkedIn",
+    href: SOCIAL_LINKS.LINKEDIN.href,
+    label: SOCIAL_LINKS.LINKEDIN.label,
     icon: <LinkedInIcon aria-hidden="true" />,
   },
   {
-    href: "https://github.com/bigyaa",
-    label: "GitHub",
+    href: SOCIAL_LINKS.GITHUB.href,
+    label: SOCIAL_LINKS.GITHUB.label,
     icon: <GitHubIcon aria-hidden="true" />,
   },
 ];
 
 // Animation configuration
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const transition = { duration: 0.6, ease: "easeOut" };
+const transition = { duration: ANIMATION_DURATION.SLOW, ease: "easeOut" };
 
 // Memoized social link component
 const SocialLink = memo(({ href, label, icon }) => (
@@ -55,10 +51,10 @@ const Hero = memo(({ resume }) => {
         className="text-5xl font-extrabold text-gray-900 mb-4"
         initial="hidden"
         animate="visible"
-        variants={fadeInUp}
+        variants={ANIMATION_VARIANTS.fadeInUp}
         transition={transition}
       >
-        Bigya Bajracharya
+        {TEXT_CONTENT.HERO.NAME}
       </motion.h1>
     ),
     Title: () => (
@@ -66,10 +62,10 @@ const Hero = memo(({ resume }) => {
         className="text-xl text-gray-700 mb-8 font-medium"
         initial="hidden"
         animate="visible"
-        variants={fadeInUp}
+        variants={ANIMATION_VARIANTS.fadeInUp}
         transition={{ ...transition, delay: 0.2 }}
       >
-        Software Engineer | Full-Stack Developer
+        {TEXT_CONTENT.HERO.TITLE}
       </motion.p>
     ),
     BioCard: () => (
@@ -77,17 +73,17 @@ const Hero = memo(({ resume }) => {
         className="bg-white p-10 rounded-lg shadow-2xl text-left mx-auto max-w-5xl"
         initial="hidden"
         animate="visible"
-        variants={fadeInUp}
+        variants={ANIMATION_VARIANTS.fadeInUp}
         transition={{ ...transition, delay: 0.4 }}
         role="region"
         aria-labelledby="summary-heading"
       >
         <h2 id="summary-heading" className="sr-only">
-          Professional Summary
+          {ARIA_LABELS.PROFESSIONAL_SUMMARY}
         </h2>
         <PortfolioBio isDarkMode={false} />
         <div className="flex items-center justify-center mt-4">
-          <i className="text-gray-600 text-sm">PS: the background is a drawing board 🎨🖌️</i>
+          <i className="text-gray-600 text-sm">{TEXT_CONTENT.HERO.BIO_NOTE}</i>
         </div>
       </motion.div>
     )
@@ -109,14 +105,12 @@ const Hero = memo(({ resume }) => {
           className="flex justify-center gap-6 my-6"
           initial="hidden"
           animate="visible"
-          variants={{
-            visible: { transition: { staggerChildren: 0.1 } }
-          }}
+          variants={ANIMATION_VARIANTS.staggerChildren}
         >
           {contactLinks.map((link) => (
             <motion.div
               key={link.label}
-              variants={fadeInUp}
+              variants={ANIMATION_VARIANTS.fadeInUp}
               transition={transition}
             >
               <SocialLink {...link} />

@@ -1,18 +1,10 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import experiences from "../../data/experiences";
-import { parseYearRange } from "../../utils/index.js";
+import { parseYearRange } from "../../utils/date";
+import { TEXT_CONTENT, ANIMATION_VARIANTS, LAYOUT } from "../../constants";
 const TimelineCard = React.lazy(() => import("./TimelineCard"));
 const SearchFilters = React.lazy(() => import("./SearchFilters"));
-
-/*** ANIMATION VARIANTS ***/
-const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-        opacity: 1,
-        transition: { staggerChildren: 0.15 },
-    },
-};
 
 /*** MAIN TIMELINE COMPONENT ***/
 const Experiences = () => {
@@ -61,7 +53,7 @@ const Experiences = () => {
             });
     }, [searchQuery, yearRange, selectedSkills, sortOrder]);
     return (
-        <section className="relative py-16 md:py-20 text-center min-h-screen bg-gradient-to-br from-pink-50 via-lavender-100 to-white-100">
+        <section className={`relative ${LAYOUT.SECTION_PADDING} text-center min-h-screen bg-gradient-to-br from-pink-50 via-lavender-100 to-white-100`}>
             {/* 🔷 PAGE TITLE */}
             <motion.h2
                 className="text-4xl font-bold mb-6 text-lavender-700"
@@ -69,11 +61,11 @@ const Experiences = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                Experience
+                {TEXT_CONTENT.EXPERIENCES.TITLE}
             </motion.h2>
 
             {/* 🔎 SEARCH & FILTERS (Clearly Separated) */}
-            <div className="max-w-6xl mx-auto px-4 md:px-6">
+            <div className={`${LAYOUT.MAX_WIDTH_LARGE} mx-auto ${LAYOUT.CONTAINER_PADDING}`}>
                 <SearchFilters
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
@@ -91,16 +83,16 @@ const Experiences = () => {
             {/* 📌 MATCHING RESULTS COUNT */}
             <div className="text-gray-600 text-lg mt-3 mb-6 md:mb-8">
                 {filteredData.length > 0 ? (
-                    <p>{filteredData.length} matching experience{filteredData.length > 1 ? "s" : ""} found</p>
+                    <p>{TEXT_CONTENT.EXPERIENCES.RESULTS_COUNT(filteredData.length)}</p>
                 ) : (
-                    <p>No matching experiences found.</p>
+                    <p>{TEXT_CONTENT.EXPERIENCES.NO_RESULTS}</p>
                 )}
             </div>
 
             {/* 🔥 EXPERIENCE TIMELINE CARDS */}
             <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 px-4 md:px-0 max-w-6xl mx-auto"
-                variants={containerVariants}
+                className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 px-4 md:px-0 ${LAYOUT.MAX_WIDTH_LARGE} mx-auto`}
+                variants={ANIMATION_VARIANTS.staggerChildren}
                 initial="hidden"
                 animate="show"
             >
@@ -112,12 +104,11 @@ const Experiences = () => {
                                 item={exp}
                                 selectedSkills={selectedSkills}
                                 toggleSkill={toggleSkill}
-                            // displayType="timeline"
                             />
                         ))
                     ) : (
-                        <motion.div className="w-full text-gray-500 mt-8 text-center" variants={containerVariants}>
-                            No matching experiences found.
+                        <motion.div className="w-full text-gray-500 mt-8 text-center" variants={ANIMATION_VARIANTS.staggerChildren}>
+                            {TEXT_CONTENT.EXPERIENCES.NO_RESULTS}
                         </motion.div>
                     )}
                 </AnimatePresence>

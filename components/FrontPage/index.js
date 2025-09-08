@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { DRAWING_CONFIG } from '../../constants';
 const Hero = React.lazy(() => import("./Hero"));
 const DrawingCanvas = React.lazy(() => import("./DrawingCanvas"));
 const GridCanvas = React.lazy(() => import("./GridCanvas"));
@@ -6,8 +7,8 @@ const Controls = React.lazy(() => import("./Controls"));
 
 const FrontPage = ({ resume }) => {
   const canvasRef = useRef(null);
-  const [currentColor, setCurrentColor] = useState('#000000');
-  const [brushSize, setBrushSize] = useState(4);
+  const [currentColor, setCurrentColor] = useState(DRAWING_CONFIG.DEFAULT_COLOR);
+  const [brushSize, setBrushSize] = useState(DRAWING_CONFIG.DEFAULT_BRUSH_SIZE);
   const [isEraser, setIsEraser] = useState(false);
 
   return (
