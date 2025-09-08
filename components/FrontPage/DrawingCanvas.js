@@ -4,22 +4,52 @@ const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const lastXRef = useRef(0);
   const lastYRef = useRef(0);
-  const scrollRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    if (!canvas) return;
+
+    // Set canvas size to match its display size
+    const resizeCanvas = () => {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    };
+
+    // Initial resize
+    resizeCanvas();
+
+    // Resize on window resize
+    window.addEventListener('resize', resizeCanvas);
+    return () => window.removeEventListener('resize', resizeCanvas);
   }, [canvasRef]);
 
-  const startDrawing = (e) => {
-    setIsDrawing(true);
+  const getEventPos = (e) => {
     const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    lastXRef.current = x;
-    lastYRef.current = y;
-    scrollRef.current = { x: window.scrollX, y: window.scrollY };
+    const scaleX = canvasRef.current.width / rect.width;
+    const scaleY = canvasRef.current.height / rect.height;
+    
+    let clientX, clientY;
+    if (e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+    
+    return {
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY
+    };
+  };
+
+  const startDrawing = (e) => {
+    e.preventDefault();
+    setIsDrawing(true);
+    const pos = getEventPos(e);
+    lastXRef.current = pos.x;
+    lastYRef.current = pos.y;
   };
 
   const stopDrawing = () => {
@@ -28,8 +58,12 @@ const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
 
   const draw = (e) => {
     if (!isDrawing) return;
+    e.preventDefault();
 
-    const ctx = canvasRef.current.getContext('2d');
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const pos = getEventPos(e);
+
     ctx.beginPath();
     ctx.lineWidth = brushSize;
     ctx.lineCap = 'round';
@@ -41,24 +75,12 @@ const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
       ctx.strokeStyle = currentColor;
     }
 
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const currentScrollX = window.scrollX;
-    const currentScrollY = window.scrollY;
-    const scrollDX = currentScrollX - scrollRef.current.x;
-    const scrollDY = currentScrollY - scrollRef.current.y;
-    lastXRef.current -= scrollDX;
-    lastYRef.current -= scrollDY;
-    scrollRef.current = { x: currentScrollX, y: currentScrollY };
-
     ctx.moveTo(lastXRef.current, lastYRef.current);
-    ctx.lineTo(x, y);
+    ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
 
-    lastXRef.current = x;
-    lastYRef.current = y;
+    lastXRef.current = pos.x;
+    lastYRef.current = pos.y;
   };
 
   return (
@@ -69,6 +91,10 @@ const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
       onMouseMove={draw}
       onMouseUp={stopDrawing}
       onMouseLeave={stopDrawing}
+      onTouchStart={startDrawing}
+      onTouchMove={draw}
+      onTouchEnd={stopDrawing}
+      style={{ touchAction: 'none' }}
     />
   );
 };
