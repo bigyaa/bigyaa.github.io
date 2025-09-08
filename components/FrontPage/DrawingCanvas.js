@@ -12,8 +12,23 @@ const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
     // Set canvas size to match its display size
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
+      const newWidth = rect.width;
+      const newHeight = rect.height;
+      
+      // Only resize if dimensions actually changed
+      if (canvas.width !== newWidth || canvas.height !== newHeight) {
+        // Save current content
+        const imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+        
+        // Resize canvas
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        
+        // Restore content if there was any
+        if (imageData.width > 0 && imageData.height > 0) {
+          canvas.getContext('2d').putImageData(imageData, 0, 0);
+        }
+      }
     };
 
     // Initial resize
