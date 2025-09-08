@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
   const [isDrawing, setIsDrawing] = useState(false);
-  const [lastX, setLastX] = useState(0);
-  const [lastY, setLastY] = useState(0);
+  const lastXRef = useRef(0);
+  const lastYRef = useRef(0);
+  const scrollRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -13,8 +14,12 @@ const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
 
   const startDrawing = (e) => {
     setIsDrawing(true);
-    setLastX(e.clientX);
-    setLastY(e.clientY);
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    lastXRef.current = x;
+    lastYRef.current = y;
+    scrollRef.current = { x: window.scrollX, y: window.scrollY };
   };
 
   const stopDrawing = () => {
@@ -36,12 +41,24 @@ const DrawingCanvas = ({ canvasRef, currentColor, brushSize, isEraser }) => {
       ctx.strokeStyle = currentColor;
     }
 
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(e.clientX, e.clientY);
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const currentScrollX = window.scrollX;
+    const currentScrollY = window.scrollY;
+    const scrollDX = currentScrollX - scrollRef.current.x;
+    const scrollDY = currentScrollY - scrollRef.current.y;
+    lastXRef.current -= scrollDX;
+    lastYRef.current -= scrollDY;
+    scrollRef.current = { x: currentScrollX, y: currentScrollY };
+
+    ctx.moveTo(lastXRef.current, lastYRef.current);
+    ctx.lineTo(x, y);
     ctx.stroke();
 
-    setLastX(e.clientX);
-    setLastY(e.clientY);
+    lastXRef.current = x;
+    lastYRef.current = y;
   };
 
   return (
